@@ -2,22 +2,18 @@ package main
 
 import (
 	"fmt"
-	"github.com/mtslzr/pokeapi-go"
+	"log"
+	"net/http"
 )
 
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello World!!")
+}
+
 func main() {
-	u, _ := pokeapi.Language("ja")
-	fmt.Println(u)
-	r, err := pokeapi.PokemonSpecies("3")
-	if err != nil {
-		panic(err)
-	}
-
-	for _, v := range r.Names {
-		if v.Language.Name == "ja" {
-			fmt.Println(v.Name)
-		}
-	}
-
-	//fmt.Println(r.Name)
+	var httpServer http.Server
+	http.HandleFunc("/", handler)
+	log.Println("start http listening :18888")
+	httpServer.Addr = ":8080"
+	log.Println(httpServer.ListenAndServe())
 }
