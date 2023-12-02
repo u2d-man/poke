@@ -1,25 +1,15 @@
 import logo from "../logo.svg";
 import React from "react";
+import RadarChart from "../components/RadarChart";
 
 const Home = () => {
     return (
-        <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo"/>
-            <p>
-                Edit <code>src/App.tsx</code> and save to reload.
-            </p>
-            <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Learn React
-            </a>
-            <button className="bg-red-300 text-white font-bold py-2 px-4 ">
-                Hello Tailwind
-            </button>
-        </header>
+        <div className="container">
+            <p>poke!</p>
+            <div className="w-3/6 text-right">
+                <RadarChart />
+            </div>
+        </div>
     );
 }
 
