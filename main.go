@@ -11,10 +11,21 @@ import (
 )
 
 type Pokemon struct {
-	Name   string   `json:"name"`
-	Types  []string `json:"types"`
-	Height float64  `json:"height"`
-	Weight float64  `json:"weight"`
+	PokedexID string        `json:"pokedex_id"`
+	Name      string        `json:"name"`
+	Types     []string      `json:"types"`
+	Height    float64       `json:"height"`
+	Weight    float64       `json:"weight"`
+	BaseStats PokeBaseStats `json:"poke_base_stats"`
+}
+
+type PokeBaseStats struct {
+	HP             int `json:"hp"`
+	Attack         int `json:"attack"`
+	Defense        int `json:"defense"`
+	SpecialAttack  int `json:"special_attack"`
+	SpecialDefense int `json:"special_defense"`
+	Speed          int `json:"speed"`
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -32,6 +43,24 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "failed get pokemon:", err)
 		return
 	}
+
+	pokeBaseStats := &PokeBaseStats{}
+	for _, v := range p.Stats {
+		if v.Stat.Name == "hp" {
+			pokeBaseStats.HP = v.BaseStat
+		} else if v.Stat.Name == "attack" {
+			pokeBaseStats.Attack = v.BaseStat
+		} else if v.Stat.Name == "defense" {
+			pokeBaseStats.Defense = v.BaseStat
+		} else if v.Stat.Name == "special-attack" {
+			pokeBaseStats.SpecialAttack = v.BaseStat
+		} else if v.Stat.Name == "special-defense" {
+			pokeBaseStats.SpecialDefense = v.BaseStat
+		} else {
+			pokeBaseStats.Speed = v.BaseStat
+		}
+	}
+	fmt.Println(p.Stats)
 
 	// get pokemon name
 	s, err := pokeapi.PokemonSpecies(pokedexID)
@@ -56,10 +85,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pokemon := &Pokemon{
-		Name:   name,
-		Types:  types,
-		Height: float64(p.Height) / 10,
-		Weight: float64(p.Weight) / 10,
+		PokedexID: pokedexID,
+		Name:      name,
+		Types:     types,
+		Height:    float64(p.Height) / 10,
+		Weight:    float64(p.Weight) / 10,
+		BaseStats: *pokeBaseStats,
 	}
 
 	output, err := json.MarshalIndent(&pokemon, "", "\t")
