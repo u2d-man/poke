@@ -84,6 +84,7 @@ func getPokemonHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	output, err := json.MarshalIndent(&res, "", "\t")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Write(output)
 }
 
@@ -126,6 +127,7 @@ func getPokemonBaseStats(w http.ResponseWriter, r *http.Request) {
 	}
 
 	output, err := json.MarshalIndent(&res, "", "\t")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Write(output)
 }
 
