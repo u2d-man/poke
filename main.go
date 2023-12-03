@@ -23,15 +23,6 @@ type Pokemon struct {
 	Weight    float64  `json:"weight"`
 }
 
-type PokeBaseStats struct {
-	HP             int `json:"hp"`
-	Attack         int `json:"attack"`
-	Defense        int `json:"defense"`
-	SpecialAttack  int `json:"special_attack"`
-	SpecialDefense int `json:"special_defense"`
-	Speed          int `json:"speed"`
-}
-
 func getPokemonHandler(w http.ResponseWriter, r *http.Request) {
 	sub := strings.TrimPrefix(r.URL.Path, "/api/v1/pokemon")
 	_, pokedexID := filepath.Split(sub)
@@ -104,20 +95,20 @@ func getPokemonBaseStats(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pokeBaseStats := &PokeBaseStats{}
+	var pokeBaseStats []int
 	for _, v := range p.Stats {
 		if v.Stat.Name == "hp" {
-			pokeBaseStats.HP = v.BaseStat
+			pokeBaseStats = append(pokeBaseStats, v.BaseStat)
 		} else if v.Stat.Name == "attack" {
-			pokeBaseStats.Attack = v.BaseStat
+			pokeBaseStats = append(pokeBaseStats, v.BaseStat)
 		} else if v.Stat.Name == "defense" {
-			pokeBaseStats.Defense = v.BaseStat
+			pokeBaseStats = append(pokeBaseStats, v.BaseStat)
 		} else if v.Stat.Name == "special-attack" {
-			pokeBaseStats.SpecialAttack = v.BaseStat
+			pokeBaseStats = append(pokeBaseStats, v.BaseStat)
 		} else if v.Stat.Name == "special-defense" {
-			pokeBaseStats.SpecialDefense = v.BaseStat
+			pokeBaseStats = append(pokeBaseStats, v.BaseStat)
 		} else {
-			pokeBaseStats.Speed = v.BaseStat
+			pokeBaseStats = append(pokeBaseStats, v.BaseStat)
 		}
 	}
 
