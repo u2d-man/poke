@@ -1,44 +1,57 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Chart as ChartJS, RadarController, LineElement, PointElement, RadialLinearScale } from "chart.js";
 import {Radar} from "react-chartjs-2";
+import apis, {ApiResponse} from "../libs/Apis";
 
 ChartJS.register(RadarController, LineElement, PointElement, RadialLinearScale);
 
 const RadarChart = () => {
-    return (
-        <Radar data={
-            data
+    const [baseStats, setBaseStats] = useState<ApiResponse>();
+    useEffect(() => {
+        const fetchBaseStats = async () => {
+            setBaseStats(await apis.getPokemonBaseStats(1));
         }
-        />
-    );
-}
+        fetchBaseStats();
+    }, []);
 
-const data = {
-    labels: [
-        'HP',
-        'こうげき',
-        'ぼうぎょ',
-        'とくこう',
-        'とくぼう',
-        'すばやさ',
-    ],
-    datasets: [
-        {
-            label: "Dataset 1",
-            data: [12, 11, 14, 52, 14, 32],
-            backgroundColor: "rgba(255, 99, 132, 0.5)"
-        },
-        {
-            label: "Dataset 1",
-            data: [12, 11, 14, 52, 14, 32],
-            backgroundColor: "rgba(255, 99, 132, 0.5)"
-        },
-        {
-            label: "Dataset 1", // 凡例
-            data: [12, 11, 14, 52, 14, 32],
-            backgroundColor: "rgba(255, 99, 132, 0.5)"
+    const data = {
+        labels: [
+            'HP',
+            'こうげき',
+            'ぼうぎょ',
+            'とくこう',
+            'とくぼう',
+            'すばやさ',
+        ],
+        datasets: [
+            {
+                label: "base stats",
+                data: baseStats?.data,
+                backgroundColor: "#C3C7F3",
+                borderColor: "#C3C7F3",
+                pointBackgroundColor: "#C3C7F3",
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: "#C3C7F3"
+            },
+        ],
+    }
+
+    const options = {
+        scales: {
+            r: {
+                angleLines: {
+                    display: true
+                },
+                suggestedMin: 0,
+                suggestedMax: 350
+            }
         }
-    ]
+    }
+
+    return (
+        <Radar data={ data } options={ options } />
+    );
 }
 
 export default RadarChart;
