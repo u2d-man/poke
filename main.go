@@ -103,7 +103,7 @@ func getPokemonBaseStats(w http.ResponseWriter, r *http.Request) {
 			pokeBaseStats = append(pokeBaseStats, v.BaseStat)
 		} else if v.Stat.Name == "defense" {
 			pokeBaseStats = append(pokeBaseStats, v.BaseStat)
-		} else if v.Stat.Name == "special-attack" {
+		} else if v.Stat.Name == "speed" {
 			pokeBaseStats = append(pokeBaseStats, v.BaseStat)
 		} else if v.Stat.Name == "special-defense" {
 			pokeBaseStats = append(pokeBaseStats, v.BaseStat)
