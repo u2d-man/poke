@@ -21,5 +21,5 @@ export default apis;
 
 export interface ApiResponse {
     message: string
-    data: string[]
+    data: any[]
 }
