@@ -17,6 +17,7 @@ type APIResponse struct {
 
 type Pokemon struct {
 	PokedexID string   `json:"pokedex_id"`
+	FrontImg  string   `json:"front_img"`
 	Name      string   `json:"name"`
 	Types     []string `json:"types"`
 	Height    float64  `json:"height"`
@@ -63,6 +64,7 @@ func getPokemonHandler(w http.ResponseWriter, r *http.Request) {
 
 	pokemon := &Pokemon{
 		PokedexID: pokedexID,
+		FrontImg:  p.Sprites.FrontDefault,
 		Name:      name,
 		Types:     types,
 		Height:    float64(p.Height) / 10,
