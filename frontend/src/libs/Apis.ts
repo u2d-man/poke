@@ -34,6 +34,7 @@ export interface PokeBaseInfoResponse {
 }
 
 export interface PokeBaseInfo {
+    pokedex_id: number
     front_img: string
     name: string
     types: string[]
