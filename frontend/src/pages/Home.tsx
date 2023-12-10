@@ -5,9 +5,9 @@ import PokemonBaseInfo from "../components/PokemonBaseInfo";
 
 const Home = () => {
     return (
-        <div className="container">
+        <div className="container lg:flex">
             <PokemonBaseInfo />
-            <div className="w-3/6 text-right">
+            <div className="w-4/6 text-right">
                 <RadarChart />
             </div>
         </div>
