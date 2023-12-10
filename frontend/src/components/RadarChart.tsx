@@ -9,7 +9,7 @@ const RadarChart = () => {
     const [baseStats, setBaseStats] = useState<ApiResponse>();
     useEffect(() => {
         const fetchBaseStats = async () => {
-            setBaseStats(await apis.getPokemonBaseStats(1));
+            setBaseStats(await apis.getPokemonBaseStats(1000));
         }
         fetchBaseStats();
     }, []);
@@ -50,7 +50,7 @@ const RadarChart = () => {
     }
 
     return (
-        <Radar data={ data } options={ options } />
+        <Radar data={ data } options={ options } className="p-4 m-5" />
     );
 }
 
