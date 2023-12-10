@@ -1,10 +1,14 @@
 import axios, { AxiosRequestConfig } from "axios";
+import PokemonBaseInfo from "../components/PokemonBaseInfo";
 
 const baseUrl = 'http://localhost:8080'
 
 class Apis {
     async getPokemonBasicInfo(pokedexID: number, axiosconfig?: AxiosRequestConfig) {
-        const { data } = await axios.get<ApiResponse>(`${baseUrl}/api/v1/pokemon/${pokedexID}`, axiosconfig);
+        const { data } = await axios.get<PokeBaseInfoResponse>(
+            `${baseUrl}/api/v1/pokemon/${pokedexID}`,
+            axiosconfig
+        );
 
         return data;
     }
@@ -23,3 +27,17 @@ export interface ApiResponse {
     message: string
     data: any[]
 }
+
+export interface PokeBaseInfoResponse {
+    message: string
+    data: PokeBaseInfo
+}
+
+export interface PokeBaseInfo {
+    front_img: string
+    name: string
+    types: string[]
+    height: number
+    weight: number
+}
+
