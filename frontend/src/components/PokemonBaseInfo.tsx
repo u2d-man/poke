@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
 import apis, {ApiResponse, PokeBaseInfoResponse} from "../libs/Apis";
+import TypeCard from "./TypeCard";
 
 const PokemonBaseInfo = () => {
     const [baseInfo, setBaseInfo] = useState<PokeBaseInfoResponse>();
     useEffect(() => {
         const fetchBaseInfo = async () => {
-            setBaseInfo(await apis.getPokemonBasicInfo(1000));
+            setBaseInfo(await apis.getPokemonBasicInfo(1001));
         }
         fetchBaseInfo();
     }, []);
@@ -22,7 +23,8 @@ const PokemonBaseInfo = () => {
                 <div className="pt-6">
                     <p>全国No. { baseInfo?.data.pokedex_id }</p>
                     <p>高さ { baseInfo?.data.height }m</p>
-                    <p>重さ { baseInfo?.data.weight }kg</p>
+                    <p className="pb-6">重さ { baseInfo?.data.weight }kg</p>
+                    <TypeCard types={ baseInfo?.data.types } />
                 </div>
             </div>
         </div>

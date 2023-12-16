@@ -9,7 +9,7 @@ const RadarChart = () => {
     const [baseStats, setBaseStats] = useState<ApiResponse>();
     useEffect(() => {
         const fetchBaseStats = async () => {
-            setBaseStats(await apis.getPokemonBaseStats(1000));
+            setBaseStats(await apis.getPokemonBaseStats(1001));
         }
         fetchBaseStats();
     }, []);
