@@ -46,12 +46,10 @@ const TypeCard = ({ types }: Props) => {
         })
     }
 
-    const customClassName = "w-24 bg-fire rounded-md mr-4 "
-
     return (
         <div className="text-white text-center flex">
             { typeClassName.map((set, index) =>
-                <p className={customClassName + set[1]} key={index}>{set[0]}</p>) }
+                <p className={"w-24 rounded-md mr-4 " + set[1]} key={index}>{set[0]}</p>) }
         </div>
     );
 }
