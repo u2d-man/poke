@@ -14,7 +14,7 @@ const PokemonBaseInfo = () => {
     console.log(baseInfo)
 
     return (
-        <div className="container hidden lg:flex">
+        <div className="container md:flex">
             <div className="box-content h-60 w-60 p-4 m-10 border-4 rounded-md border-indigo-500">
                 <img src={baseInfo?.data.front_img} className="w-60"  alt="icon" />
             </div>
