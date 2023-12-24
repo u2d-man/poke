@@ -14,14 +14,14 @@ const Home = () => {
 
     return (
         <div>
-            <div className="container lg:flex flex">
+            <div>
                 <PokemonBaseInfo />
-                <div className="text-right">
-                    <RadarChart />
-                </div>
             </div>
-            <div className="container justify-start max-w-md w-90 m-10">
-                <EffortValueTextField placeholder="HP" value={ hp } setValue={ setHp } type="text" label="HP" />
+            <div className="block text-right w-2/6 box-content ml-auto mr-20">
+                <RadarChart />
+            </div>
+            <div className="container max-w-md w-90 m-10">
+                <EffortValueTextField placeholder="HP" value={ hp } setValue={ setHp } type="text" label="HitPoint" />
                 <EffortValueTextField placeholder="こうげき" value={ attack } setValue={ setAttack } type="text" label="こうげき" />
                 <EffortValueTextField placeholder="ぼうぎょ" value={ defence } setValue={ setDefence } type="text" label="ぼうぎょ" />
                 <EffortValueTextField placeholder="すばやさ" value={ speed } setValue={ setSpeed } type="text" label="すばやさ" />
