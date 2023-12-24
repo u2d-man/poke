@@ -5,11 +5,15 @@ import {Chart as ChartJS, LineElement, PointElement, RadarController, RadialLine
 
 ChartJS.register(RadarController, LineElement, PointElement, RadialLinearScale);
 
-const PokemonBaseInfo = () => {
+interface Props {
+    pokedexID: number
+}
+
+const PokemonBaseInfo = ({ pokedexID }: Props) => {
     const [baseInfo, setBaseInfo] = useState<PokeBaseInfoResponse>();
     useEffect(() => {
         const fetchBaseInfo = async () => {
-            setBaseInfo(await apis.getPokemonBasicInfo(1001));
+            setBaseInfo(await apis.getPokemonBasicInfo(pokedexID));
         }
         fetchBaseInfo();
     }, []);
