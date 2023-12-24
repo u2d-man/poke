@@ -4,7 +4,11 @@ import RadarChart from "../components/RadarChart";
 import PokemonBaseInfo from "../components/PokemonBaseInfo";
 import EffortValueTextField from "../components/EffortValueTextField";
 
-const Home = () => {
+interface Props {
+    pokedexID: number
+}
+
+const Home = ({ pokedexID }: Props) => {
     const [hp, setHp] = useState('')
     const [attack, setAttack] = useState('')
     const [defence, setDefence] = useState('')
@@ -15,10 +19,10 @@ const Home = () => {
     return (
         <div>
             <div>
-                <PokemonBaseInfo />
+                <PokemonBaseInfo pokedexID={ pokedexID }/>
             </div>
             <div className="block text-right w-2/6 box-content ml-auto mr-20">
-                <RadarChart />
+                <RadarChart pokedexID={ pokedexID } />
             </div>
             <div className="container max-w-md w-90 m-10">
                 <EffortValueTextField placeholder="HP" value={ hp } setValue={ setHp } type="text" label="HitPoint" />

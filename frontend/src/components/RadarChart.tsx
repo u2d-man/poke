@@ -5,11 +5,15 @@ import apis, {ApiResponse} from "../libs/Apis";
 
 ChartJS.register(RadarController, LineElement, PointElement, RadialLinearScale);
 
-const RadarChart = () => {
+interface Props {
+    pokedexID: number
+}
+
+const RadarChart = ({ pokedexID }: Props) => {
     const [baseStats, setBaseStats] = useState<ApiResponse>();
     useEffect(() => {
         const fetchBaseStats = async () => {
-            setBaseStats(await apis.getPokemonBaseStats(1001));
+            setBaseStats(await apis.getPokemonBaseStats(pokedexID));
         }
         fetchBaseStats();
     }, []);
