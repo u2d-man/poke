@@ -124,10 +124,49 @@ func getPokemonBaseStats(w http.ResponseWriter, r *http.Request) {
 	w.Write(output)
 }
 
+func getPokemonMove(w http.ResponseWriter, r *http.Request) {
+	sub := strings.TrimPrefix(r.URL.Path, "/api/v1/pokemon")
+	_, pokedexID := filepath.Split(sub)
+	if pokedexID == "" {
+		w.WriteHeader(404)
+		fmt.Fprintln(w, "invalid route:", r.URL.Path)
+		return
+	}
+
+	p, err := pokeapi.Pokemon(pokedexID)
+	if err != nil {
+		w.WriteHeader(400)
+		fmt.Fprintln(w, "failed get pokemon:", err)
+		return
+	}
+
+	var pokeMoves []string
+	for _, v := range p.Moves {
+		mName := v.Move.Name
+
+		m, _ := pokeapi.Move(mName)
+		for _, v := range m.Names {
+			if v.Language.Name == "ja-Hrkt" {
+				pokeMoves = append(pokeMoves, v.Name)
+			}
+		}
+	}
+
+	res := &APIResponse{
+		Message: "success",
+		Data:    pokeMoves,
+	}
+
+	output, err := json.MarshalIndent(&res, "", "\t")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Write(output)
+}
+
 func main() {
 	var httpServer http.Server
 	http.HandleFunc("/api/v1/pokemon/", getPokemonHandler)
 	http.HandleFunc("/api/v1/pokemon/base_stats/", getPokemonBaseStats)
+	http.HandleFunc("/api/v1/pokemon/move/", getPokemonMove)
 	log.Println("start http listening :8080")
 	httpServer.Addr = ":8080"
 	log.Println(httpServer.ListenAndServe())
