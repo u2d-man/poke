@@ -3,34 +3,46 @@ import React, {useState} from "react";
 import RadarChart from "../components/RadarChart";
 import PokemonBaseInfo from "../components/PokemonBaseInfo";
 import EffortValueTextField from "../components/EffortValueTextField";
+import MoveTextField from "../components/MoveTextField";
 
 interface Props {
     pokedexID: number
 }
 
 const Home = ({ pokedexID }: Props) => {
-    const [hp, setHp] = useState('')
-    const [attack, setAttack] = useState('')
-    const [defence, setDefence] = useState('')
-    const [speed, setSpeed] = useState('')
-    const [specialDefense, setSpecialDefense] = useState('')
-    const [specialAttack, setSpecialAttack] = useState('')
+    const [hp, setHp] = useState('');
+    const [attack, setAttack] = useState('');
+    const [defence, setDefence] = useState('');
+    const [speed, setSpeed] = useState('');
+    const [specialDefense, setSpecialDefense] = useState('');
+    const [specialAttack, setSpecialAttack] = useState('');
+
+    const [move, setMove] = useState('');
+    const [move2, setMove2] = useState('');
+    const [move3, setMove3] = useState('');
+    const [move4, setMove4] = useState('');
 
     return (
         <div>
-            <div>
-                <PokemonBaseInfo pokedexID={ pokedexID }/>
-            </div>
+            <PokemonBaseInfo pokedexID={ pokedexID }/>
             <div className="block text-right w-2/6 box-content ml-auto mr-20">
                 <RadarChart pokedexID={ pokedexID } />
             </div>
-            <div className="container max-w-md w-90 m-10">
-                <EffortValueTextField placeholder="HP" value={ hp } setValue={ setHp } type="text" label="HitPoint" />
-                <EffortValueTextField placeholder="こうげき" value={ attack } setValue={ setAttack } type="text" label="こうげき" />
-                <EffortValueTextField placeholder="ぼうぎょ" value={ defence } setValue={ setDefence } type="text" label="ぼうぎょ" />
-                <EffortValueTextField placeholder="すばやさ" value={ speed } setValue={ setSpeed } type="text" label="すばやさ" />
-                <EffortValueTextField placeholder="とくぼう" value={ specialDefense } setValue={ setSpecialDefense } type="text" label="とくぼう" />
-                <EffortValueTextField placeholder="とくこう" value={ specialAttack } setValue={ setSpecialAttack } type="text" label="とくこう" />
+            <div className="flex">
+                <div className="box-content max-w-md w-90 m-10">
+                    <EffortValueTextField placeholder="HP" value={ hp } setValue={ setHp } type="text" label="HitPoint" />
+                    <EffortValueTextField placeholder="こうげき" value={ attack } setValue={ setAttack } type="text" label="こうげき" />
+                    <EffortValueTextField placeholder="ぼうぎょ" value={ defence } setValue={ setDefence } type="text" label="ぼうぎょ" />
+                    <EffortValueTextField placeholder="すばやさ" value={ speed } setValue={ setSpeed } type="text" label="すばやさ" />
+                    <EffortValueTextField placeholder="とくぼう" value={ specialDefense } setValue={ setSpecialDefense } type="text" label="とくぼう" />
+                    <EffortValueTextField placeholder="とくこう" value={ specialAttack } setValue={ setSpecialAttack } type="text" label="とくこう" />
+                </div>
+                <div className="box-content m-10">
+                    <MoveTextField placeholder="わざ1" value={ move } setValue={ setMove } type="text" label="わざ1" />
+                    <MoveTextField placeholder="わざ2" value={ move2 } setValue={ setMove2 } type="text" label="わざ2" />
+                    <MoveTextField placeholder="わざ3" value={ move3 } setValue={ setMove3 } type="text" label="わざ3" />
+                    <MoveTextField placeholder="わざ4" value={ move4 } setValue={ setMove4 } type="text" label="わざ4" />
+                </div>
             </div>
         </div>
 
