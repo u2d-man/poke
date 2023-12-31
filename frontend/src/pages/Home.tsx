@@ -38,10 +38,10 @@ const Home = ({ pokedexID }: Props) => {
                     <EffortValueTextField placeholder="とくこう" value={ specialAttack } setValue={ setSpecialAttack } type="text" label="とくこう" />
                 </div>
                 <div className="box-content m-10">
-                    <MoveTextField placeholder="わざ1" value={ move } setValue={ setMove } type="text" label="わざ1" />
-                    <MoveTextField placeholder="わざ2" value={ move2 } setValue={ setMove2 } type="text" label="わざ2" />
-                    <MoveTextField placeholder="わざ3" value={ move3 } setValue={ setMove3 } type="text" label="わざ3" />
-                    <MoveTextField placeholder="わざ4" value={ move4 } setValue={ setMove4 } type="text" label="わざ4" />
+                    <MoveTextField placeholder="わざ1" value={ move } setValue={ setMove } type="search" label="わざ1" pokedexID={ pokedexID } />
+                    <MoveTextField placeholder="わざ2" value={ move2 } setValue={ setMove2 } type="text" label="わざ2" pokedexID={ pokedexID } />
+                    <MoveTextField placeholder="わざ3" value={ move3 } setValue={ setMove3 } type="text" label="わざ3" pokedexID={ pokedexID } />
+                    <MoveTextField placeholder="わざ4" value={ move4 } setValue={ setMove4 } type="text" label="わざ4" pokedexID={ pokedexID } />
                 </div>
             </div>
         </div>

@@ -1,4 +1,6 @@
-import {DetailedHTMLProps, InputHTMLAttributes} from "react";
+import {DetailedHTMLProps, InputHTMLAttributes, useState} from "react";
+import {useDebounce} from "react-use";
+import apis, {ApiResponse} from "../libs/Apis";
 
 type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
@@ -9,6 +11,7 @@ interface Props {
     type: string
     label: string
     inputProps?: InputProps
+    pokedexID: number
 }
 
 const MoveTextField = ({
@@ -17,8 +20,34 @@ const MoveTextField = ({
     setValue,
     type,
     label,
-    inputProps
+    inputProps,
+    pokedexID
 }: Props & InputProps) => {
+    const [onFocus, setOnFocus] = useState(false);
+    const [suggestions, setSuggestions] = useState<ApiResponse>();
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(event.target.value);
+    };
+
+    const handleInputFocus = () => {
+        setOnFocus(true);
+    };
+
+    const handleInputBlur = () => {
+        setOnFocus(false);
+    };
+
+    useDebounce(
+        () => {
+            const fetchSuggestions = async () => {
+                setSuggestions(await apis.getPokemonMove(pokedexID));
+            };
+            fetchSuggestions();
+        },
+        500,
+        [value]
+    );
+
     return (
         <div className="m-5">
             <input
@@ -27,8 +56,21 @@ const MoveTextField = ({
                 { ...inputProps }
                 value={ value }
                 placeholder={ placeholder }
-                onChange={ e => setValue(e.target.value) }
+                onChange={ handleInputChange }
+                onFocus={ handleInputFocus }
+                onBlur={ handleInputBlur }
             />
+
+            <div className={` ${onFocus ? '' : 'hidden' } relative overflow-x-auto` }>
+                <table className="w-full text-sm text-left">
+                    <tbody>
+                    {suggestions?.data.map((suggestion) => (
+                        <p key={ suggestion }>{suggestion}</p>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     );
 }
