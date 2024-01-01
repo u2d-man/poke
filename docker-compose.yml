@@ -1,10 +1,41 @@
+volumes:
+  db-store:
+
+configs:
+  db-config:
+    file: docker/mysql/my.cnf
+
 version: "3"
 services:
   app:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: docker/go/Dockerfile
     ports:
       - "8080:8080"
     volumes:
       - .:/app
+
+  db:
+    build:
+      context: .
+      dockerfile: docker/mysql/Dockerfile
+    ports:
+      - target: 3306
+        published: ${DB_PUBLISHED_PORT:-3306}
+        protocol: tcp
+        mode: host
+    configs:
+      - source: db-config
+        target: /etc/my.cnf
+    volumes:
+      - type: volume
+        source: db-store
+        target: /var/lib/mysql
+        volume:
+          nocopy: true
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE:-poke}
+      - MYSQL_USER=${DB_USERNAME:-trainer}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-secret}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
