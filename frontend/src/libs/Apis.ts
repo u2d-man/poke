@@ -18,6 +18,12 @@ class Apis {
 
         return data;
     }
+
+    async getPokemonMove(pokedexID: number, axiosconfig?: AxiosRequestConfig) {
+        const { data } = await axios.get(`${baseUrl}/api/v1/pokemon/move/${pokedexID}`, axiosconfig);
+
+        return data;
+    }
 }
 
 const apis = new Apis();
