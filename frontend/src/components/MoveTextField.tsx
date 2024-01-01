@@ -27,15 +27,19 @@ const MoveTextField = ({
     const [suggestions, setSuggestions] = useState<ApiResponse>();
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
-    };
+    }
 
     const handleInputFocus = () => {
         setOnFocus(true);
-    };
+    }
 
     const handleInputBlur = () => {
         setOnFocus(false);
-    };
+    }
+
+    const handleMoveClick = (value: string) => {
+        setValue(value)
+    }
 
     useDebounce(
         () => {
@@ -61,14 +65,10 @@ const MoveTextField = ({
                 onBlur={ handleInputBlur }
             />
 
-            <div className={` ${onFocus ? '' : 'hidden' } relative overflow-x-auto` }>
-                <table className="w-full text-sm text-left">
-                    <tbody>
-                    {suggestions?.data.map((suggestion) => (
-                        <p key={ suggestion }>{suggestion}</p>
-                    ))}
-                    </tbody>
-                </table>
+            <div className={` ${onFocus ? '' : '' } relative overflow-x-auto w-full text-left border-solid` } >
+                {suggestions?.data.map((suggestion) => (
+                    <p key={ suggestion } onClick={ () => handleMoveClick(suggestion) }>{suggestion}</p>
+                ))}
             </div>
 
         </div>
