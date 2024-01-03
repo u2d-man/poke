@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/jmoiron/sqlx"
 	"github.com/mtslzr/pokeapi-go"
 	"log"
 	"net/http"
@@ -22,6 +23,26 @@ type Pokemon struct {
 	Types     []string `json:"types"`
 	Height    float64  `json:"height"`
 	Weight    float64  `json:"weight"`
+}
+
+type getHandlers struct {
+	DB *sqlx.DB
+}
+
+func main() {
+	db, _ := GetDB(false)
+	h := &getHandlers{
+		DB: db,
+	}
+
+	var httpServer http.Server
+	http.HandleFunc("/api/v1/pokemon/", getPokemonHandler)
+	http.HandleFunc("/api/v1/pokemon/base_stats/", getPokemonBaseStats)
+	http.HandleFunc("/api/v1/pokemon/move/", getPokemonMove)
+	http.HandleFunc("/api/v1/training_pokemon/", h.postTrainingPokemon)
+	log.Println("start http listening :8080")
+	httpServer.Addr = ":8080"
+	log.Println(httpServer.ListenAndServe())
 }
 
 func getPokemonHandler(w http.ResponseWriter, r *http.Request) {
@@ -162,12 +183,32 @@ func getPokemonMove(w http.ResponseWriter, r *http.Request) {
 	w.Write(output)
 }
 
-func main() {
-	var httpServer http.Server
-	http.HandleFunc("/api/v1/pokemon/", getPokemonHandler)
-	http.HandleFunc("/api/v1/pokemon/base_stats/", getPokemonBaseStats)
-	http.HandleFunc("/api/v1/pokemon/move/", getPokemonMove)
-	log.Println("start http listening :8080")
-	httpServer.Addr = ":8080"
-	log.Println(httpServer.ListenAndServe())
+func (h *getHandlers) postTrainingPokemon(w http.ResponseWriter, r *http.Request) {
+	pokedexID := r.PostFormValue("pokedex_id")
+	pName := r.PostFormValue("name")
+	move := r.PostFormValue("move_1")
+	move2 := r.PostFormValue("move_2")
+	move3 := r.PostFormValue("move_3")
+	move4 := r.PostFormValue("move_4")
+	hp := r.PostFormValue("hp")
+	attack := r.PostFormValue("attack")
+	defense := r.PostFormValue("defense")
+	speed := r.PostFormValue("speed")
+	sDefense := r.PostFormValue("special_defense")
+	sAttack := r.PostFormValue("special_attack")
+	item := r.PostFormValue("item")
+
+	_, err := h.DB.Exec("INSERT INTO `training_pokemons` (`pokedex_id`, `name`, `move_1`, `move_2`, `move_3`, `move_4`, `hp`, `attack`, `defense`, `speed`, `special_defense`, `special_attack`, `item`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		pokedexID, pName, move, move2, move3, move4, hp, attack, defense, speed, sDefense, sAttack, item)
+	if err != nil {
+		w.WriteHeader(500)
+		fmt.Fprintln(w, "failed insert training_pokemon:", err)
+		return
+	}
+
+	res := &APIResponse{
+		Message: "success",
+	}
+	output, _ := json.MarshalIndent(&res, "", "\t")
+	w.Write(output)
 }
