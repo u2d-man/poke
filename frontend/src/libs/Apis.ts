@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import PokemonBaseInfo from "../components/PokemonBaseInfo";
+import {Form} from "react-router-dom";
 
 const baseUrl = 'http://localhost:8080'
 
@@ -24,6 +24,27 @@ class Apis {
 
         return data;
     }
+
+    async postTrainingPokemon(req: PostTrainingPokemonRequest, axiosconfig?: AxiosRequestConfig) {
+        const data = new FormData();
+        data.append('pokedex_id', req.pokedex_id)
+        data.append('name', req.name)
+        data.append('move_1', req.move_1)
+        data.append('move_2', req.move_2)
+        data.append('move_3', req.move_3)
+        data.append('move_4', req.move_4)
+        data.append('hp', req.hp)
+        data.append('attack', req.attack)
+        data.append('speed', req.speed)
+        data.append('defense', req.defense)
+        data.append('special_attack', req.special_attack)
+        data.append('special_defense', req.special_defense)
+        data.append('item', req.item)
+        await axios.post<void>(`${baseUrl}/api/v1/training_pokemon/`, data, {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            ...axiosconfig
+        });
+    }
 }
 
 const apis = new Apis();
@@ -46,5 +67,21 @@ export interface PokeBaseInfo {
     types: string[]
     height: number
     weight: number
+}
+
+export interface PostTrainingPokemonRequest {
+    pokedex_id: string,
+    name: string,
+    move_1: string,
+    move_2: string,
+    move_3: string,
+    move_4: string,
+    hp: string,
+    attack: string,
+    defense: string,
+    speed: string,
+    special_defense: string,
+    special_attack: string,
+    item: string,
 }
 

@@ -1,9 +1,9 @@
-import logo from "../logo.svg";
 import React, {useState} from "react";
 import RadarChart from "../components/RadarChart";
 import PokemonBaseInfo from "../components/PokemonBaseInfo";
 import EffortValueTextField from "../components/EffortValueTextField";
 import MoveTextField from "../components/MoveTextField";
+import apis, {PostTrainingPokemonRequest} from "../libs/Apis";
 
 interface Props {
     pokedexID: number
@@ -12,7 +12,7 @@ interface Props {
 const Home = ({ pokedexID }: Props) => {
     const [hp, setHp] = useState('');
     const [attack, setAttack] = useState('');
-    const [defence, setDefence] = useState('');
+    const [defense, setDefense] = useState('');
     const [speed, setSpeed] = useState('');
     const [specialDefense, setSpecialDefense] = useState('');
     const [specialAttack, setSpecialAttack] = useState('');
@@ -21,6 +21,25 @@ const Home = ({ pokedexID }: Props) => {
     const [move2, setMove2] = useState('');
     const [move3, setMove3] = useState('');
     const [move4, setMove4] = useState('');
+
+    const submit = async () => {
+        const req: PostTrainingPokemonRequest = {
+            pokedex_id: String(pokedexID),
+            name: "フシギダネ",
+            move_1: move,
+            move_2: move2,
+            move_3: move3,
+            move_4: move4,
+            hp: hp,
+            attack: attack,
+            defense: defense,
+            speed: speed,
+            special_attack: specialAttack,
+            special_defense: specialDefense,
+            item: ""
+        }
+        await apis.postTrainingPokemon(req)
+    }
 
     return (
         <div>
@@ -32,7 +51,7 @@ const Home = ({ pokedexID }: Props) => {
                 <div className="box-content max-w-md w-90 m-10">
                     <EffortValueTextField placeholder="HP" value={ hp } setValue={ setHp } type="text" label="HitPoint" />
                     <EffortValueTextField placeholder="こうげき" value={ attack } setValue={ setAttack } type="text" label="こうげき" />
-                    <EffortValueTextField placeholder="ぼうぎょ" value={ defence } setValue={ setDefence } type="text" label="ぼうぎょ" />
+                    <EffortValueTextField placeholder="ぼうぎょ" value={ defense } setValue={ setDefense } type="text" label="ぼうぎょ" />
                     <EffortValueTextField placeholder="すばやさ" value={ speed } setValue={ setSpeed } type="text" label="すばやさ" />
                     <EffortValueTextField placeholder="とくぼう" value={ specialDefense } setValue={ setSpecialDefense } type="text" label="とくぼう" />
                     <EffortValueTextField placeholder="とくこう" value={ specialAttack } setValue={ setSpecialAttack } type="text" label="とくこう" />
@@ -43,9 +62,9 @@ const Home = ({ pokedexID }: Props) => {
                     <MoveTextField placeholder="わざ3" value={ move3 } setValue={ setMove3 } type="text" label="わざ3" pokedexID={ pokedexID } />
                     <MoveTextField placeholder="わざ4" value={ move4 } setValue={ setMove4 } type="text" label="わざ4" pokedexID={ pokedexID } />
                 </div>
+                <button onClick={ submit } >登録</button>
             </div>
         </div>
-
     );
 }
 
