@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"strconv"
 	"strings"
 )
 
@@ -184,18 +185,22 @@ func getPokemonMove(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *getHandlers) postTrainingPokemon(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
 	pokedexID := r.PostFormValue("pokedex_id")
 	pName := r.PostFormValue("name")
 	move := r.PostFormValue("move_1")
 	move2 := r.PostFormValue("move_2")
 	move3 := r.PostFormValue("move_3")
 	move4 := r.PostFormValue("move_4")
-	hp := r.PostFormValue("hp")
-	attack := r.PostFormValue("attack")
-	defense := r.PostFormValue("defense")
-	speed := r.PostFormValue("speed")
-	sDefense := r.PostFormValue("special_defense")
-	sAttack := r.PostFormValue("special_attack")
+	hp, _ := strconv.Atoi(r.PostFormValue("hp"))
+	attack, _ := strconv.Atoi(r.PostFormValue("attack"))
+	defense, _ := strconv.Atoi(r.PostFormValue("defense"))
+	speed, _ := strconv.Atoi(r.PostFormValue("speed"))
+	sDefense, _ := strconv.Atoi(r.PostFormValue("special_defense"))
+	sAttack, _ := strconv.Atoi(r.PostFormValue("special_attack"))
 	item := r.PostFormValue("item")
 
 	_, err := h.DB.Exec("INSERT INTO `training_pokemons` (`pokedex_id`, `name`, `move_1`, `move_2`, `move_3`, `move_4`, `hp`, `attack`, `defense`, `speed`, `special_defense`, `special_attack`, `item`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -209,6 +214,7 @@ func (h *getHandlers) postTrainingPokemon(w http.ResponseWriter, r *http.Request
 	res := &APIResponse{
 		Message: "success",
 	}
+
 	output, _ := json.MarshalIndent(&res, "", "\t")
 	w.Write(output)
 }
