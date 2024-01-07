@@ -40,6 +40,7 @@ func main() {
 	http.HandleFunc("/api/v1/pokemon/", getPokemonHandler)
 	http.HandleFunc("/api/v1/pokemon/base_stats/", getPokemonBaseStats)
 	http.HandleFunc("/api/v1/pokemon/move/", getPokemonMove)
+	http.HandleFunc("/api/v1/items/", getItems)
 	http.HandleFunc("/api/v1/training_pokemon/", h.postTrainingPokemon)
 	log.Println("start http listening :8080")
 	httpServer.Addr = ":8080"
@@ -213,6 +214,32 @@ func (h *handlers) postTrainingPokemon(w http.ResponseWriter, r *http.Request) {
 
 	res := &APIResponse{
 		Message: "success",
+	}
+
+	output, _ := json.MarshalIndent(&res, "", "\t")
+	w.Write(output)
+}
+
+func getItems(w http.ResponseWriter, r *http.Request) {
+	var items []string
+	for i := 1; i < 10; i++ {
+		item, err := pokeapi.Item(strconv.Itoa(i))
+		if err != nil {
+			w.WriteHeader(500)
+			fmt.Fprintln(w, "failed get items:", err)
+			break
+		}
+
+		for _, v := range item.Names {
+			if v.Language.Name == "ja-Hrkt" {
+				items = append(items, v.Name)
+			}
+		}
+	}
+
+	res := &APIResponse{
+		Message: "success",
+		Data:    items,
 	}
 
 	output, _ := json.MarshalIndent(&res, "", "\t")
