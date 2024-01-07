@@ -26,13 +26,13 @@ type Pokemon struct {
 	Weight    float64  `json:"weight"`
 }
 
-type getHandlers struct {
+type handlers struct {
 	DB *sqlx.DB
 }
 
 func main() {
 	db, _ := GetDB(false)
-	h := &getHandlers{
+	h := &handlers{
 		DB: db,
 	}
 
@@ -40,6 +40,7 @@ func main() {
 	http.HandleFunc("/api/v1/pokemon/", getPokemonHandler)
 	http.HandleFunc("/api/v1/pokemon/base_stats/", getPokemonBaseStats)
 	http.HandleFunc("/api/v1/pokemon/move/", getPokemonMove)
+	http.HandleFunc("/api/v1/items/", getItems)
 	http.HandleFunc("/api/v1/training_pokemon/", h.postTrainingPokemon)
 	log.Println("start http listening :8080")
 	httpServer.Addr = ":8080"
@@ -184,7 +185,7 @@ func getPokemonMove(w http.ResponseWriter, r *http.Request) {
 	w.Write(output)
 }
 
-func (h *getHandlers) postTrainingPokemon(w http.ResponseWriter, r *http.Request) {
+func (h *handlers) postTrainingPokemon(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -213,6 +214,32 @@ func (h *getHandlers) postTrainingPokemon(w http.ResponseWriter, r *http.Request
 
 	res := &APIResponse{
 		Message: "success",
+	}
+
+	output, _ := json.MarshalIndent(&res, "", "\t")
+	w.Write(output)
+}
+
+func getItems(w http.ResponseWriter, r *http.Request) {
+	var items []string
+	for i := 1; i < 10; i++ {
+		item, err := pokeapi.Item(strconv.Itoa(i))
+		if err != nil {
+			w.WriteHeader(500)
+			fmt.Fprintln(w, "failed get items:", err)
+			break
+		}
+
+		for _, v := range item.Names {
+			if v.Language.Name == "ja-Hrkt" {
+				items = append(items, v.Name)
+			}
+		}
+	}
+
+	res := &APIResponse{
+		Message: "success",
+		Data:    items,
 	}
 
 	output, _ := json.MarshalIndent(&res, "", "\t")
