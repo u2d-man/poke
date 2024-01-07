@@ -26,13 +26,13 @@ type Pokemon struct {
 	Weight    float64  `json:"weight"`
 }
 
-type getHandlers struct {
+type handlers struct {
 	DB *sqlx.DB
 }
 
 func main() {
 	db, _ := GetDB(false)
-	h := &getHandlers{
+	h := &handlers{
 		DB: db,
 	}
 
@@ -184,7 +184,7 @@ func getPokemonMove(w http.ResponseWriter, r *http.Request) {
 	w.Write(output)
 }
 
-func (h *getHandlers) postTrainingPokemon(w http.ResponseWriter, r *http.Request) {
+func (h *handlers) postTrainingPokemon(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
