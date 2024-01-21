@@ -26,6 +26,12 @@ type Pokemon struct {
 	Weight    float64  `json:"weight"`
 }
 
+type ItemResponse struct {
+	ID     int    `json:"id"`
+	Name   string `json:"name"`
+	Sprite string `json:"sprite"`
+}
+
 type handlers struct {
 	DB *sqlx.DB
 }
@@ -221,18 +227,49 @@ func (h *handlers) postTrainingPokemon(w http.ResponseWriter, r *http.Request) {
 }
 
 func getItems(w http.ResponseWriter, r *http.Request) {
-	var items []string
-	for i := 1; i < 10; i++ {
-		item, err := pokeapi.Item(strconv.Itoa(i))
-		if err != nil {
-			w.WriteHeader(500)
-			fmt.Fprintln(w, "failed get items:", err)
-			break
-		}
+	var items []*ItemResponse
+	heldItem, err := pokeapi.ItemCategory("12")
+	if err != nil {
+		w.WriteHeader(500)
+		fmt.Fprintln(w, "failed get held items:", err)
+	}
 
-		for _, v := range item.Names {
-			if v.Language.Name == "ja-Hrkt" {
-				items = append(items, v.Name)
+	fmt.Println(heldItem)
+
+	for _, c := range heldItem.Items {
+		itemRes := &ItemResponse{}
+		item, err := pokeapi.Item(c.Name)
+		if err != nil {
+			fmt.Fprintln(w, "failed get item:", err)
+		}
+		itemRes.ID = item.ID
+		itemRes.Sprite = item.Sprites.Default
+		for _, i := range item.Names {
+			if i.Language.Name == "ja-Hrkt" {
+				itemRes.Name = i.Name
+				items = append(items, itemRes)
+			}
+		}
+	}
+
+	choice, err := pokeapi.ItemCategory("13")
+	if err != nil {
+		w.WriteHeader(500)
+		fmt.Fprintln(w, "failed get choice items:", err)
+	}
+
+	for _, c := range choice.Items {
+		itemRes := &ItemResponse{}
+		item, err := pokeapi.Item(c.Name)
+		if err != nil {
+			fmt.Fprintln(w, "failed get item:", err)
+		}
+		itemRes.ID = item.ID
+		itemRes.Sprite = item.Sprites.Default
+		for _, i := range item.Names {
+			if i.Language.Name == "ja-Hrkt" {
+				itemRes.Name = i.Name
+				items = append(items, itemRes)
 			}
 		}
 	}
