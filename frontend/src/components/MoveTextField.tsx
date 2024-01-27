@@ -70,7 +70,6 @@ const MoveTextField = ({
                     <p key={ suggestion } onClick={ () => handleMoveClick(suggestion) }>{suggestion}</p>
                 ))}
             </div>
-
         </div>
     );
 }
