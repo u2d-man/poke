@@ -25,6 +25,12 @@ class Apis {
         return data;
     }
 
+    async getPokeMove(axiosconfig?: AxiosRequestConfig) {
+        const { data } = await axios.get(`${baseUrl}/api/v1/items`, axiosconfig);
+
+        return data;
+    }
+
     async postTrainingPokemon(req: PostTrainingPokemonRequest, axiosconfig?: AxiosRequestConfig) {
         const data = new FormData();
         data.append('pokedex_id', req.pokedex_id)
@@ -67,6 +73,17 @@ export interface PokeBaseInfo {
     types: string[]
     height: number
     weight: number
+}
+
+export interface ItemsResponse {
+    message: string
+    data: Items[]
+}
+
+export interface Items {
+    id: number
+    name: string
+    sprite: string
 }
 
 export interface PostTrainingPokemonRequest {
