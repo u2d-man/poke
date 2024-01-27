@@ -25,8 +25,8 @@ class Apis {
         return data;
     }
 
-    async getPokeMove(axiosconfig?: AxiosRequestConfig) {
-        const { data } = await axios.get(`${baseUrl}/api/v1/items`, axiosconfig);
+    async getItems(axiosconfig?: AxiosRequestConfig) {
+        const { data } = await axios.get(`${baseUrl}/api/v1/items/`, axiosconfig);
 
         return data;
     }
