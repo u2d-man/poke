@@ -4,6 +4,7 @@ import PokemonBaseInfo from "../components/PokemonBaseInfo";
 import EffortValueTextField from "../components/EffortValueTextField";
 import MoveTextField from "../components/MoveTextField";
 import apis, {PostTrainingPokemonRequest} from "../libs/Apis";
+import ItemTextField from "../components/ItemTextField";
 
 interface Props {
     pokedexID: number
@@ -21,6 +22,8 @@ const Home = ({ pokedexID }: Props) => {
     const [move2, setMove2] = useState('');
     const [move3, setMove3] = useState('');
     const [move4, setMove4] = useState('');
+
+    const [item, setItem] = useState('');
 
     const submit = async () => {
         const req: PostTrainingPokemonRequest = {
@@ -61,6 +64,9 @@ const Home = ({ pokedexID }: Props) => {
                     <MoveTextField placeholder="わざ2" value={ move2 } setValue={ setMove2 } type="text" label="わざ2" pokedexID={ pokedexID } />
                     <MoveTextField placeholder="わざ3" value={ move3 } setValue={ setMove3 } type="text" label="わざ3" pokedexID={ pokedexID } />
                     <MoveTextField placeholder="わざ4" value={ move4 } setValue={ setMove4 } type="text" label="わざ4" pokedexID={ pokedexID } />
+                </div>
+                <div>
+                    <ItemTextField placeholder="わざ1" value={ item } setValue={ setItem } type="search" label="アイテム" />
                 </div>
                 <button onClick={ submit } >登録</button>
             </div>

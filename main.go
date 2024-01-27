@@ -234,8 +234,6 @@ func getItems(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "failed get held items:", err)
 	}
 
-	fmt.Println(heldItem)
-
 	for _, c := range heldItem.Items {
 		itemRes := &ItemResponse{}
 		item, err := pokeapi.Item(c.Name)
@@ -280,5 +278,6 @@ func getItems(w http.ResponseWriter, r *http.Request) {
 	}
 
 	output, _ := json.MarshalIndent(&res, "", "\t")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Write(output)
 }
