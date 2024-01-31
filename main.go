@@ -32,6 +32,11 @@ type ItemResponse struct {
 	Sprite string `json:"sprite"`
 }
 
+type AbilityResponse struct {
+	Ability       string `json:"ability"`
+	HiddenAbility string `json:"hidden_ability"`
+}
+
 type handlers struct {
 	DB *sqlx.DB
 }
@@ -48,6 +53,7 @@ func main() {
 	http.HandleFunc("/api/v1/pokemon/move/", getPokemonMove)
 	http.HandleFunc("/api/v1/items/", getItems)
 	http.HandleFunc("/api/v1/training_pokemon/", h.postTrainingPokemon)
+	http.HandleFunc("/api/v1/pokemon/ability/", getPokemonAbility)
 	log.Println("start http listening :8080")
 	httpServer.Addr = ":8080"
 	log.Println(httpServer.ListenAndServe())
@@ -275,6 +281,49 @@ func getItems(w http.ResponseWriter, r *http.Request) {
 	res := &APIResponse{
 		Message: "success",
 		Data:    items,
+	}
+
+	output, _ := json.MarshalIndent(&res, "", "\t")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Write(output)
+}
+
+func getPokemonAbility(w http.ResponseWriter, r *http.Request) {
+	sub := strings.TrimPrefix(r.URL.Path, "/api/v1/pokemon")
+	_, pokedexID := filepath.Split(sub)
+	if pokedexID == "" {
+		w.WriteHeader(404)
+		fmt.Fprintln(w, "invalid route:", r.URL.Path)
+		return
+	}
+
+	p, err := pokeapi.Pokemon(pokedexID)
+	if err != nil {
+		w.WriteHeader(500)
+		fmt.Fprintln(w, "failed get pokemon:", err)
+	}
+	var abilities []string
+	for _, v := range p.Abilities {
+		abilities = append(abilities, v.Ability.Name)
+	}
+
+	var aRes []string
+	for _, v := range abilities {
+		ability, err := pokeapi.Ability(v)
+		if err != nil {
+			w.WriteHeader(500)
+			fmt.Fprintln(w, "failed get ability:", err)
+		}
+		for _, v := range ability.Names {
+			if v.Language.Name == "ja-Hrkt" {
+				aRes = append(aRes, v.Name)
+			}
+		}
+	}
+
+	res := &APIResponse{
+		Message: "success",
+		Data:    aRes,
 	}
 
 	output, _ := json.MarshalIndent(&res, "", "\t")
