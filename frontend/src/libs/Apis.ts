@@ -31,6 +31,12 @@ class Apis {
         return data;
     }
 
+    async getPokemonAbility(pokedexID: number, axiosconfig?: AxiosRequestConfig) {
+        const { data } = await axios.get(`${baseUrl}/api/v1/pokemon/ability/${pokedexID}`, axiosconfig);
+
+        return data;
+    }
+
     async postTrainingPokemon(req: PostTrainingPokemonRequest, axiosconfig?: AxiosRequestConfig) {
         const data = new FormData();
         data.append('pokedex_id', req.pokedex_id)
