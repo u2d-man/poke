@@ -32,6 +32,7 @@ const Home = ({ pokedexID }: Props) => {
         const req: PostTrainingPokemonRequest = {
             pokedex_id: String(pokedexID),
             name: "フシギダネ",
+            ability: ability,
             move_1: move,
             move_2: move2,
             move_3: move3,
@@ -42,7 +43,7 @@ const Home = ({ pokedexID }: Props) => {
             speed: speed,
             special_attack: specialAttack,
             special_defense: specialDefense,
-            item: ""
+            item: item
         }
         await apis.postTrainingPokemon(req)
     }
