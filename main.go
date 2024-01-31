@@ -204,6 +204,7 @@ func (h *handlers) postTrainingPokemon(w http.ResponseWriter, r *http.Request) {
 
 	pokedexID := r.PostFormValue("pokedex_id")
 	pName := r.PostFormValue("name")
+	ability := r.PostFormValue("ability")
 	move := r.PostFormValue("move_1")
 	move2 := r.PostFormValue("move_2")
 	move3 := r.PostFormValue("move_3")
@@ -216,8 +217,8 @@ func (h *handlers) postTrainingPokemon(w http.ResponseWriter, r *http.Request) {
 	sAttack, _ := strconv.Atoi(r.PostFormValue("special_attack"))
 	item := r.PostFormValue("item")
 
-	_, err := h.DB.Exec("INSERT INTO `training_pokemons` (`pokedex_id`, `name`, `move_1`, `move_2`, `move_3`, `move_4`, `hp`, `attack`, `defense`, `speed`, `special_defense`, `special_attack`, `item`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-		pokedexID, pName, move, move2, move3, move4, hp, attack, defense, speed, sDefense, sAttack, item)
+	_, err := h.DB.Exec("INSERT INTO `training_pokemons` (`pokedex_id`, `name`, `ability`, `move_1`, `move_2`, `move_3`, `move_4`, `hp`, `attack`, `defense`, `speed`, `special_defense`, `special_attack`, `item`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		pokedexID, pName, ability, move, move2, move3, move4, hp, attack, defense, speed, sDefense, sAttack, item)
 	if err != nil {
 		w.WriteHeader(500)
 		fmt.Fprintln(w, "failed insert training_pokemon:", err)

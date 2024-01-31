@@ -31,10 +31,17 @@ class Apis {
         return data;
     }
 
+    async getPokemonAbility(pokedexID: number, axiosconfig?: AxiosRequestConfig) {
+        const { data } = await axios.get(`${baseUrl}/api/v1/pokemon/ability/${pokedexID}`, axiosconfig);
+
+        return data;
+    }
+
     async postTrainingPokemon(req: PostTrainingPokemonRequest, axiosconfig?: AxiosRequestConfig) {
         const data = new FormData();
         data.append('pokedex_id', req.pokedex_id)
         data.append('name', req.name)
+        data.append('ability', req.ability)
         data.append('move_1', req.move_1)
         data.append('move_2', req.move_2)
         data.append('move_3', req.move_3)
@@ -89,6 +96,7 @@ export interface Items {
 export interface PostTrainingPokemonRequest {
     pokedex_id: string,
     name: string,
+    ability: string,
     move_1: string,
     move_2: string,
     move_3: string,
