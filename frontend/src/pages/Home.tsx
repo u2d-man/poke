@@ -12,6 +12,7 @@ interface Props {
 }
 
 const Home = ({ pokedexID }: Props) => {
+    const [name, setName] = useState('');
     const [hp, setHp] = useState('');
     const [attack, setAttack] = useState('');
     const [defense, setDefense] = useState('');
@@ -28,10 +29,13 @@ const Home = ({ pokedexID }: Props) => {
 
     const [ability, setAbility] = useState('');
 
+    const [sprite, setSprite] = useState('');
+
     const submit = async () => {
         const req: PostTrainingPokemonRequest = {
             pokedex_id: String(pokedexID),
-            name: "フシギダネ",
+            name: name,
+            sprite: sprite,
             ability: ability,
             move_1: move,
             move_2: move2,
@@ -50,7 +54,7 @@ const Home = ({ pokedexID }: Props) => {
 
     return (
         <div>
-            <PokemonBaseInfo pokedexID={ pokedexID }/>
+            <PokemonBaseInfo pokedexID={ pokedexID } setSprite={ setSprite } setName={ setName } />
             <div className="block text-right w-2/6 box-content ml-auto mr-20">
                 <RadarChart pokedexID={ pokedexID } />
             </div>

@@ -9,7 +9,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path='/home' element={
-                    <Home pokedexID={ 1 } />
+                    <Home pokedexID={ 1000 } />
                 }>
                 </Route>
             </Routes>
