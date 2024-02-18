@@ -32,9 +32,11 @@ type ItemResponse struct {
 	Sprite string `json:"sprite"`
 }
 
-type AbilityResponse struct {
-	Ability       string `json:"ability"`
-	HiddenAbility string `json:"hidden_ability"`
+type TrainingPokemon struct {
+	ID        int    `db:"id"`
+	PokedexID int    `db:"pokedex_id"`
+	Name      string `db:"name"`
+	Sprite    string `db:"sprite"`
 }
 
 type handlers struct {
@@ -54,6 +56,7 @@ func main() {
 	http.HandleFunc("/api/v1/items/", getItems)
 	http.HandleFunc("/api/v1/training_pokemon/", h.postTrainingPokemon)
 	http.HandleFunc("/api/v1/pokemon/ability/", getPokemonAbility)
+	http.HandleFunc("/api/v1/training_pokemons/", h.getTrainingPokemons)
 	log.Println("start http listening :8080")
 	httpServer.Addr = ":8080"
 	log.Println(httpServer.ListenAndServe())
@@ -326,6 +329,24 @@ func getPokemonAbility(w http.ResponseWriter, r *http.Request) {
 	res := &APIResponse{
 		Message: "success",
 		Data:    aRes,
+	}
+
+	output, _ := json.MarshalIndent(&res, "", "\t")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Write(output)
+}
+
+func (h *handlers) getTrainingPokemons(w http.ResponseWriter, r *http.Request) {
+	var trainingPokemon []TrainingPokemon
+	query := "SELECT id, pokedex_id, name, sprite FROM training_pokemons"
+	if err := h.DB.Select(&trainingPokemon, query); err != nil {
+		w.WriteHeader(500)
+		fmt.Fprintln(w, "failed get training pokemons from db:", err)
+	}
+
+	res := &APIResponse{
+		Message: "success",
+		Data:    trainingPokemon,
 	}
 
 	output, _ := json.MarshalIndent(&res, "", "\t")
