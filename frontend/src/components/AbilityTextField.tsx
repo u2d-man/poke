@@ -1,5 +1,6 @@
 import {DetailedHTMLProps, InputHTMLAttributes, useEffect, useState} from "react";
 import apis, {ApiResponse} from "../libs/Apis";
+import {useQuery, UseQueryResult} from "@tanstack/react-query";
 
 type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
@@ -22,14 +23,18 @@ const AbilityTextField = ({
     inputProps,
     pokedexID
  }: Props & InputProps) => {
-    const [abilities, setAbilities] = useState<ApiResponse>();
     const [onFocus, setOnFocus] = useState(false);
 
-    useEffect(() => {
-        const fetchItem = async () => {
-            setAbilities(await apis.getPokemonAbility(pokedexID));
-        }
-        fetchItem();
+    const { data }: UseQueryResult<ApiResponse> = useQuery({
+        queryKey: ["getPokemonAbility"],
+        async queryFn() {
+            const response = await apis.getPokemonAbility(pokedexID);
+            if (response) {
+                return response;
+            } else {
+                console.log('fetch error get pokemon ability.');
+            }
+        },
     });
 
     const handleInputFocus = () => {
@@ -57,7 +62,7 @@ const AbilityTextField = ({
             />
 
             <div className="relative overflow-x-auto w-full text-left border-solid" >
-                {abilities?.data.map((ability) => (
+                {data?.data.map((ability) => (
                     <p key={ ability } onClick={ () => handleMoveClick(ability) }>{ability}</p>
                 ))}
             </div>
