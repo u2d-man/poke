@@ -1,5 +1,5 @@
 type Props = {
-    types: string[] | undefined
+    types: string[] | undefined;
 }
 
 export function TypeCard({types}: Props) {
