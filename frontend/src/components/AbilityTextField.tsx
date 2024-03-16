@@ -14,7 +14,7 @@ interface Props {
     pokedexID: number
 }
 
-const AbilityTextField = ({
+export function AbilityTextField({
     placeholder,
     value,
     setValue,
@@ -22,7 +22,7 @@ const AbilityTextField = ({
     label,
     inputProps,
     pokedexID
- }: Props & InputProps) => {
+ }: Props & InputProps) {
     const [onFocus, setOnFocus] = useState(false);
 
     const { data }: UseQueryResult<ApiResponse> = useQuery({
@@ -71,5 +71,3 @@ const AbilityTextField = ({
         </div>
     );
 }
-
-export default AbilityTextField;

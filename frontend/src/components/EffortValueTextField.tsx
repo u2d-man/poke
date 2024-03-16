@@ -11,14 +11,14 @@ type Props = {
     inputProps?: InputProps;
 }
 
-const EffortValueTextField = ({
+export function EffortValueTextField({
     placeholder,
     value,
     setValue,
     type,
     label,
     inputProps
-}: Props & InputProps) => {
+}: Props & InputProps) {
     return (
         <div className="m-5 flex">
             <label className="mt-5 mb-2 text-sm font-medium text-gray-900 mr-3">{ label }</label>
@@ -34,5 +34,3 @@ const EffortValueTextField = ({
         </div>
     );
 }
-
-export default EffortValueTextField;

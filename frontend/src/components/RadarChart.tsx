@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { Chart as ChartJS, RadarController, LineElement, PointElement, RadialLinearScale } from "chart.js";
 import {Radar} from "react-chartjs-2";
 import apis, {ApiResponse} from "../libs/Apis";
@@ -10,7 +10,7 @@ type Props = {
     pokedexID: number
 }
 
-const RadarChart = ({pokedexID}: Props) => {
+export function RadarChart({pokedexID}: Props) {
     const {data}: UseQueryResult<ApiResponse> = useQuery({
         queryKey: ["getPokemonBaseStats"],
         async queryFn() {
@@ -64,5 +64,3 @@ const RadarChart = ({pokedexID}: Props) => {
         <Radar data={ chartData } options={ options } className="p-4 m-5" />
     );
 }
-
-export default RadarChart;

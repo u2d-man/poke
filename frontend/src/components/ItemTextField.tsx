@@ -14,14 +14,14 @@ type Props = {
     inputProps?: InputProps;
 }
 
-const ItemTextField = ({
+export function ItemTextField({
     placeholder,
     value,
     setValue,
     type,
     label,
     inputProps,
-}: Props & InputProps) => {
+}: Props & InputProps) {
     const {data}: UseQueryResult<ApiResponse> = useQuery({
         queryKey: ["getItems"],
         async queryFn() {
@@ -66,5 +66,3 @@ const ItemTextField = ({
         </div>
     );
 }
-
-export default ItemTextField;

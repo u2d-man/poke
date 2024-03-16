@@ -1,14 +1,14 @@
 import React, {useState} from "react";
-import RadarChart from "../components/RadarChart";
-import PokemonBaseInfo from "../components/PokemonBaseInfo";
-import EffortValueTextField from "../components/EffortValueTextField";
-import MoveTextField from "../components/MoveTextField";
+import {RadarChart} from "../components/RadarChart";
+import {PokemonBaseInfo} from "../components/PokemonBaseInfo";
+import {EffortValueTextField} from "../components/EffortValueTextField";
+import {MoveTextField} from "../components/MoveTextField";
 import apis, {PostTrainingPokemonRequest} from "../libs/Apis";
-import ItemTextField from "../components/ItemTextField";
-import AbilityTextField from "../components/AbilityTextField";
+import {ItemTextField} from "../components/ItemTextField";
+import {AbilityTextField} from "../components/AbilityTextField";
 
-interface Props {
-    pokedexID: number
+type Props = {
+    pokedexID: number;
 }
 
 const Home = ({ pokedexID }: Props) => {

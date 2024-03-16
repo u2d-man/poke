@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from "react";
-import apis, {ApiResponse, PokeBaseInfoResponse} from "../libs/Apis";
-import TypeCard from "./TypeCard";
+import apis, {PokeBaseInfoResponse} from "../libs/Apis";
+import {TypeCard} from "./TypeCard";
 import {Chart as ChartJS, LineElement, PointElement, RadarController, RadialLinearScale} from "chart.js";
 import {useQuery, UseQueryResult} from "@tanstack/react-query";
 
@@ -12,7 +11,7 @@ type Props = {
     setName: (newValue: string) => void;
 }
 
-const PokemonBaseInfo = ({pokedexID, setSprite, setName}: Props) => {
+export function PokemonBaseInfo({pokedexID, setSprite, setName}: Props) {
     const {data}: UseQueryResult<PokeBaseInfoResponse> = useQuery({
         queryKey: ["getPokemonBasicInfo"],
         async queryFn() {
@@ -47,5 +46,3 @@ const PokemonBaseInfo = ({pokedexID, setSprite, setName}: Props) => {
         </div>
     );
 }
-
-export default PokemonBaseInfo;

@@ -1,5 +1,4 @@
-import React, {DetailedHTMLProps, InputHTMLAttributes, useState} from "react";
-import {useDebounce} from "react-use";
+import React, {DetailedHTMLProps, InputHTMLAttributes} from "react";
 import apis, {ApiResponse} from "../libs/Apis";
 import {useQuery, UseQueryResult} from "@tanstack/react-query";
 
@@ -15,7 +14,7 @@ type Props = {
     pokedexID: number;
 }
 
-const MoveTextField = ({
+export function MoveTextField({
     placeholder,
     value,
     setValue,
@@ -23,7 +22,7 @@ const MoveTextField = ({
     label,
     inputProps,
     pokedexID
-}: Props & InputProps) => {
+}: Props & InputProps) {
     const {data}: UseQueryResult<ApiResponse> = useQuery({
         queryKey: ["getPokemonMove"],
         async queryFn() {
@@ -65,5 +64,3 @@ const MoveTextField = ({
         </div>
     );
 }
-
-export default MoveTextField;
