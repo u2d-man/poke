@@ -1,20 +1,20 @@
-import {DetailedHTMLProps, InputHTMLAttributes, useState} from "react";
-import {useDebounce} from "react-use";
+import React, {DetailedHTMLProps, InputHTMLAttributes} from "react";
 import apis, {ApiResponse} from "../libs/Apis";
+import {useQuery, UseQueryResult} from "@tanstack/react-query";
 
 type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
-interface Props {
-    placeholder: string
-    value: string
-    setValue: (newValue: string) => void
-    type: string
-    label: string
-    inputProps?: InputProps
-    pokedexID: number
+type Props = {
+    placeholder: string;
+    value: string;
+    setValue: (newValue: string) => void;
+    type: string;
+    label: string;
+    inputProps?: InputProps;
+    pokedexID: number;
 }
 
-const MoveTextField = ({
+export function MoveTextField({
     placeholder,
     value,
     setValue,
@@ -22,35 +22,28 @@ const MoveTextField = ({
     label,
     inputProps,
     pokedexID
-}: Props & InputProps) => {
-    const [onFocus, setOnFocus] = useState(false);
-    const [suggestions, setSuggestions] = useState<ApiResponse>();
+}: Props & InputProps) {
+    const {data}: UseQueryResult<ApiResponse> = useQuery({
+        queryKey: ["getPokemonMove"],
+        async queryFn() {
+            const response = await apis.getPokemonMove(pokedexID);
+            if (response) {
+                return response;
+            } else {
+                console.log('fetch error get pokemon move.');
+            }
+        }
+    });
+
+    if (!data) return null;
+
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
-    }
-
-    const handleInputFocus = () => {
-        setOnFocus(true);
-    }
-
-    const handleInputBlur = () => {
-        setOnFocus(false);
     }
 
     const handleMoveClick = (value: string) => {
         setValue(value)
     }
-
-    useDebounce(
-        () => {
-            const fetchSuggestions = async () => {
-                setSuggestions(await apis.getPokemonMove(pokedexID));
-            };
-            fetchSuggestions();
-        },
-        500,
-        [value]
-    );
 
     return (
         <div className="m-5">
@@ -61,17 +54,13 @@ const MoveTextField = ({
                 value={ value }
                 placeholder={ placeholder }
                 onChange={ handleInputChange }
-                onFocus={ handleInputFocus }
-                onBlur={ handleInputBlur }
             />
 
-            <div className={` ${onFocus ? '' : '' } relative overflow-x-auto w-full text-left border-solid` } >
-                {suggestions?.data.map((suggestion) => (
+            <div className='relative overflow-x-auto w-full text-left border-solid' >
+                {data.data.map((suggestion) => (
                     <p key={ suggestion } onClick={ () => handleMoveClick(suggestion) }>{suggestion}</p>
                 ))}
             </div>
         </div>
     );
 }
-
-export default MoveTextField;

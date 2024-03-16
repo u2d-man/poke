@@ -1,8 +1,8 @@
-interface Props {
-    types: string[] | undefined
+type Props = {
+    types: string[] | undefined;
 }
 
-const TypeCard = ({ types }: Props) => {
+export function TypeCard({types}: Props) {
     let typeClassName: string[][] = []
     if (types) {
         types.map((name) => {
@@ -53,5 +53,3 @@ const TypeCard = ({ types }: Props) => {
         </div>
     );
 }
-
-export default TypeCard;

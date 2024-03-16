@@ -1,32 +1,40 @@
 import {DetailedHTMLProps, InputHTMLAttributes, useEffect, useState} from "react";
-import apis, {ItemsResponse} from "../libs/Apis";
+import apis, {ApiResponse} from "../libs/Apis";
+import {useQuery} from "@tanstack/react-query";
+import {UseQueryResult} from "@tanstack/react-query/build/modern";
 
 type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
-interface Props {
-    placeholder: string
-    value: string
-    setValue: (newValue: string) => void
-    type: string
-    label: string
-    inputProps?: InputProps
+type Props = {
+    placeholder: string;
+    value: string;
+    setValue: (newValue: string) => void;
+    type: string;
+    label: string;
+    inputProps?: InputProps;
 }
 
-const ItemTextField = ({
+export function ItemTextField({
     placeholder,
     value,
     setValue,
     type,
     label,
     inputProps,
-}: Props & InputProps) => {
-    const [items, setItems] = useState<ItemsResponse>();
-    useEffect(() => {
-        const fetchItems = async () => {
-            setItems(await apis.getItems());
+}: Props & InputProps) {
+    const {data}: UseQueryResult<ApiResponse> = useQuery({
+        queryKey: ["getItems"],
+        async queryFn() {
+            const response = await apis.getItems();
+            if (response) {
+                return response;
+            } else {
+                console.log('fetch error get pokemon items.');
+            }
         }
-        fetchItems();
     });
+
+    if (!data) return null;
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
@@ -48,7 +56,7 @@ const ItemTextField = ({
             />
 
             <div className="relative overflow-x-auto w-full text-left border-solid" >
-                {items?.data.map((item) => (
+                {data.data.map((item) => (
                     <div className="flex">
                         <img src={ item.sprite } alt="icon" />
                         <p key={ item.id } onClick={ () => handleItemClick(item.name) }>{item.name}</p>
@@ -58,5 +66,3 @@ const ItemTextField = ({
         </div>
     );
 }
-
-export default ItemTextField;

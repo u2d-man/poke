@@ -1,24 +1,24 @@
-import {DetailedHTMLProps, HTMLProps, InputHTMLAttributes} from "react";
+import {DetailedHTMLProps, InputHTMLAttributes} from "react";
 
 type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
-interface Props {
-    placeholder: string
-    value: string
-    setValue: (newValue: string) => void
-    type: string
-    label: string
-    inputProps?: InputProps
+type Props = {
+    placeholder: string;
+    value: string;
+    setValue: (newValue: string) => void;
+    type: string;
+    label: string;
+    inputProps?: InputProps;
 }
 
-const EffortValueTextField = ({
+export function EffortValueTextField({
     placeholder,
     value,
     setValue,
     type,
     label,
     inputProps
-}: Props & InputProps) => {
+}: Props & InputProps) {
     return (
         <div className="m-5 flex">
             <label className="mt-5 mb-2 text-sm font-medium text-gray-900 mr-3">{ label }</label>
@@ -34,5 +34,3 @@ const EffortValueTextField = ({
         </div>
     );
 }
-
-export default EffortValueTextField;

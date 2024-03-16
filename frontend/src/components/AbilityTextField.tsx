@@ -14,7 +14,7 @@ interface Props {
     pokedexID: number
 }
 
-const AbilityTextField = ({
+export function AbilityTextField({
     placeholder,
     value,
     setValue,
@@ -22,7 +22,7 @@ const AbilityTextField = ({
     label,
     inputProps,
     pokedexID
- }: Props & InputProps) => {
+ }: Props & InputProps) {
     const [onFocus, setOnFocus] = useState(false);
 
     const { data }: UseQueryResult<ApiResponse> = useQuery({
@@ -36,6 +36,8 @@ const AbilityTextField = ({
             }
         },
     });
+
+    if (!data) return null;
 
     const handleInputFocus = () => {
         setOnFocus(true);
@@ -62,12 +64,10 @@ const AbilityTextField = ({
             />
 
             <div className="relative overflow-x-auto w-full text-left border-solid" >
-                {data?.data.map((ability) => (
+                {data.data.map((ability) => (
                     <p key={ ability } onClick={ () => handleMoveClick(ability) }>{ability}</p>
                 ))}
             </div>
         </div>
     );
 }
-
-export default AbilityTextField;
