@@ -1,8 +1,8 @@
-interface Props {
+type Props = {
     types: string[] | undefined
 }
 
-const TypeCard = ({ types }: Props) => {
+const TypeCard = ({types}: Props) => {
     let typeClassName: string[][] = []
     if (types) {
         types.map((name) => {

@@ -2,23 +2,30 @@ import React, {useEffect, useState} from "react";
 import { Chart as ChartJS, RadarController, LineElement, PointElement, RadialLinearScale } from "chart.js";
 import {Radar} from "react-chartjs-2";
 import apis, {ApiResponse} from "../libs/Apis";
+import {useQuery, UseQueryResult} from "@tanstack/react-query";
 
 ChartJS.register(RadarController, LineElement, PointElement, RadialLinearScale);
 
-interface Props {
+type Props = {
     pokedexID: number
 }
 
-const RadarChart = ({ pokedexID }: Props) => {
-    const [baseStats, setBaseStats] = useState<ApiResponse>();
-    useEffect(() => {
-        const fetchBaseStats = async () => {
-            setBaseStats(await apis.getPokemonBaseStats(pokedexID));
+const RadarChart = ({pokedexID}: Props) => {
+    const {data}: UseQueryResult<ApiResponse> = useQuery({
+        queryKey: ["getPokemonBaseStats"],
+        async queryFn() {
+            const response = apis.getPokemonBaseStats(pokedexID);
+            if (response) {
+                return response;
+            } else {
+                console.log('fetch error get pokemon base stats.');
+            }
         }
-        fetchBaseStats();
-    }, []);
+    });
 
-    const data = {
+    if (!data) return null;
+
+    const chartData = {
         labels: [
             'HP',
             'こうげき',
@@ -30,7 +37,7 @@ const RadarChart = ({ pokedexID }: Props) => {
         datasets: [
             {
                 label: "base stats",
-                data: baseStats?.data,
+                data: data.data,
                 backgroundColor: "#C3C7F3",
                 borderColor: "#C3C7F3",
                 pointBackgroundColor: "#C3C7F3",
@@ -54,7 +61,7 @@ const RadarChart = ({ pokedexID }: Props) => {
     }
 
     return (
-        <Radar data={ data } options={ options } className="p-4 m-5" />
+        <Radar data={ chartData } options={ options } className="p-4 m-5" />
     );
 }
 

@@ -1,42 +1,47 @@
 import React, {useEffect, useState} from "react";
-import apis, {PokeBaseInfoResponse} from "../libs/Apis";
+import apis, {ApiResponse, PokeBaseInfoResponse} from "../libs/Apis";
 import TypeCard from "./TypeCard";
 import {Chart as ChartJS, LineElement, PointElement, RadarController, RadialLinearScale} from "chart.js";
+import {useQuery, UseQueryResult} from "@tanstack/react-query";
 
 ChartJS.register(RadarController, LineElement, PointElement, RadialLinearScale);
 
-interface Props {
-    pokedexID: number
-    setSprite: (newValue: string) => void
-    setName: (newValue: string) => void
+type Props = {
+    pokedexID: number;
+    setSprite: (newValue: string) => void;
+    setName: (newValue: string) => void;
 }
 
-const PokemonBaseInfo = ({ pokedexID, setSprite, setName }: Props) => {
-    const [baseInfo, setBaseInfo] = useState<PokeBaseInfoResponse>();
-    useEffect(() => {
-        const fetchBaseInfo = async () => {
-            setBaseInfo(await apis.getPokemonBasicInfo(pokedexID));
+const PokemonBaseInfo = ({pokedexID, setSprite, setName}: Props) => {
+    const {data}: UseQueryResult<PokeBaseInfoResponse> = useQuery({
+        queryKey: ["getPokemonBasicInfo"],
+        async queryFn() {
+            const response = apis.getPokemonBasicInfo(pokedexID);
+            if (response) {
+                return response;
+            } else {
+                console.log('fetch error get pokemon basic info.');
+            }
         }
-        fetchBaseInfo();
-    }, []);
+    });
 
-    useEffect(() => {
-        setSprite(baseInfo?.data.front_img ? baseInfo?.data.front_img : '');
-        setName(baseInfo?.data.name ? baseInfo?.data.name : '');
-    }, [baseInfo]);
+    if (!data) return null;
+
+    setSprite(data.data.front_img ? data.data.front_img : '');
+    setName(data.data.name ? data.data.name : '');
 
     return (
         <div className="flex border-4 m-5 w-3/6 absolute">
             <div className="box-content w-60 p-4 m-10 border-4 rounded-md border-indigo-500">
-                <img src={ baseInfo?.data.front_img } className="w-60" alt="icon"/>
+                <img src={ data.data.front_img } className="w-60" alt="icon"/>
             </div>
             <div className="box-content p-4 m-5 text-left">
-                <p className="text-lg font-bold">{ baseInfo?.data.name }</p>
+                <p className="text-lg font-bold">{ data.data.name }</p>
                 <div className="pt-6">
-                    <p>全国No. { baseInfo?.data.pokedex_id }</p>
-                    <p>高さ { baseInfo?.data.height }m</p>
-                    <p className="pb-6">重さ { baseInfo?.data.weight }kg</p>
-                    <TypeCard types={ baseInfo?.data.types }/>
+                    <p>全国No. { data.data.pokedex_id }</p>
+                    <p>高さ { data.data.height }m</p>
+                    <p className="pb-6">重さ { data.data.weight }kg</p>
+                    <TypeCard types={ data.data.types }/>
                 </div>
             </div>
         </div>

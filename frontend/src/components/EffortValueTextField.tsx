@@ -1,14 +1,14 @@
-import {DetailedHTMLProps, HTMLProps, InputHTMLAttributes} from "react";
+import {DetailedHTMLProps, InputHTMLAttributes} from "react";
 
 type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
-interface Props {
-    placeholder: string
-    value: string
-    setValue: (newValue: string) => void
-    type: string
-    label: string
-    inputProps?: InputProps
+type Props = {
+    placeholder: string;
+    value: string;
+    setValue: (newValue: string) => void;
+    type: string;
+    label: string;
+    inputProps?: InputProps;
 }
 
 const EffortValueTextField = ({
