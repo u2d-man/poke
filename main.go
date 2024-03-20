@@ -33,10 +33,10 @@ type ItemResponse struct {
 }
 
 type TrainingPokemon struct {
-	ID        int    `db:"id"`
-	PokedexID int    `db:"pokedex_id"`
-	Name      string `db:"name"`
-	Sprite    string `db:"sprite"`
+	ID        int    `db:"id" json:"id"`
+	PokedexID int    `db:"pokedex_id" json:"pokedex_id"`
+	Name      string `db:"name" json:"name"`
+	Sprite    string `db:"sprite" json:"sprite"`
 }
 
 type handlers struct {
