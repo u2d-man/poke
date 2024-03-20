@@ -25,7 +25,7 @@ class Apis {
     }
 
     async getItems(axiosconfig?: AxiosRequestConfig) {
-        const { data } = await axios.get(`${baseUrl}/api/v1/items/`, axiosconfig);
+        const { data } = await axios.get<ItemsResponse>(`${baseUrl}/api/v1/items/`, axiosconfig);
 
         return data;
     }
