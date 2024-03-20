@@ -4,7 +4,7 @@ const baseUrl = 'http://localhost:8080'
 
 class Apis {
     async getPokemonBasicInfo(pokedexID: number, axiosconfig?: AxiosRequestConfig) {
-        const { data } = await axios.get<PokeBaseInfoResponse>(
+        const {data} = await axios.get<PokeBaseInfoResponse>(
             `${baseUrl}/api/v1/pokemon/${pokedexID}`,
             axiosconfig
         );
@@ -13,25 +13,25 @@ class Apis {
     }
 
     async getPokemonBaseStats(pokedexID: number, axiosconfig?: AxiosRequestConfig) {
-        const { data } = await axios.get(`${baseUrl}/api/v1/pokemon/base_stats/${pokedexID}`, axiosconfig);
+        const {data} = await axios.get(`${baseUrl}/api/v1/pokemon/base_stats/${pokedexID}`, axiosconfig);
 
         return data;
     }
 
     async getPokemonMove(pokedexID: number, axiosconfig?: AxiosRequestConfig) {
-        const { data } = await axios.get(`${baseUrl}/api/v1/pokemon/move/${pokedexID}`, axiosconfig);
+        const {data} = await axios.get(`${baseUrl}/api/v1/pokemon/move/${pokedexID}`, axiosconfig);
 
         return data;
     }
 
     async getItems(axiosconfig?: AxiosRequestConfig) {
-        const { data } = await axios.get<ItemsResponse>(`${baseUrl}/api/v1/items/`, axiosconfig);
+        const {data} = await axios.get<ItemsResponse>(`${baseUrl}/api/v1/items/`, axiosconfig);
 
         return data;
     }
 
     async getPokemonAbility(pokedexID: number, axiosconfig?: AxiosRequestConfig) {
-        const { data } = await axios.get(`${baseUrl}/api/v1/pokemon/ability/${pokedexID}`, axiosconfig);
+        const {data} = await axios.get(`${baseUrl}/api/v1/pokemon/ability/${pokedexID}`, axiosconfig);
 
         return data;
     }
@@ -58,6 +58,13 @@ class Apis {
             ...axiosconfig
         });
     }
+
+    async getTrainingPokemons(axiosconfig?: AxiosRequestConfig) {
+        const {data} = await axios.get<TrainingPokemonResponse>(`/api/v1/training_pokemons/`, axiosconfig);
+
+        return data;
+    }
+
 }
 
 const apis = new Apis();
@@ -89,6 +96,18 @@ export interface ItemsResponse {
 
 export interface Items {
     id: number
+    name: string
+    sprite: string
+}
+
+export interface TrainingPokemonResponse {
+    message: string
+    data: TrainingPokemon[]
+}
+
+export interface TrainingPokemon {
+    id: number
+    pokedex_id: number
     name: string
     sprite: string
 }
