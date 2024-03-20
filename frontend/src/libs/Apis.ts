@@ -60,7 +60,7 @@ class Apis {
     }
 
     async getTrainingPokemons(axiosconfig?: AxiosRequestConfig) {
-        const {data} = await axios.get<TrainingPokemonResponse>(`/api/v1/training_pokemons/`, axiosconfig);
+        const {data} = await axios.get<TrainingPokemonResponse>(`${baseUrl}/api/v1/training_pokemons/`, axiosconfig);
 
         return data;
     }

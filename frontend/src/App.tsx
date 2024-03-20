@@ -24,7 +24,7 @@ function App() {
                         <Home />
                     } />
                     <Route path='/new-training-pokemon' element={
-                        <NewTrainingPokemon pokedexID={1} />
+                        <NewTrainingPokemon pokedexID={294} />
                     } />
                 </Routes>
             </BrowserRouter>
