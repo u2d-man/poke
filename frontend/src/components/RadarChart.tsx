@@ -38,12 +38,12 @@ export function RadarChart({pokedexID}: Props) {
             {
                 label: "base stats",
                 data: data.data,
-                backgroundColor: "#C3C7F3",
-                borderColor: "#C3C7F3",
-                pointBackgroundColor: "#C3C7F3",
+                backgroundColor: "#fff",
+                borderColor: "#fff",
+                pointBackgroundColor: "#fff",
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: "#C3C7F3"
+                pointHoverBorderColor: "#fff"
             },
         ],
     }
@@ -62,7 +62,7 @@ export function RadarChart({pokedexID}: Props) {
 
     return (
         <div className="relative w-full">
-            <Radar data={ chartData } options={ options } className="relative  h-500 max-w-500 my-0 mx-auto" />
+            <Radar data={ chartData } options={ options } className="relative h-500 max-w-500 my-0 mx-auto" />
         </div>
     );
 }

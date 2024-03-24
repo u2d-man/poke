@@ -24,6 +24,7 @@ module.exports = {
         'dragon': '#7038F8',
         'dark': '#705848',
         'fairy': '#EE99AC',
+        'bg': '#25254B',
       }
     },
   },
