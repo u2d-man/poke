@@ -55,7 +55,7 @@ export function NewTrainingPokemon({ pokedexID }: Props) {
     return (
         <div>
             <PokemonBaseInfo pokedexID={ pokedexID } setSprite={ setSprite } setName={ setName } />
-            <div className="block text-right w-2/6 box-content ml-auto mr-20">
+            <div className="my-40 mx-30 flex justify-between">
                 <RadarChart pokedexID={ pokedexID } />
             </div>
             <div className="flex">

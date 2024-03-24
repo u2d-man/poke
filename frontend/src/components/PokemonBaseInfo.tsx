@@ -30,17 +30,19 @@ export function PokemonBaseInfo({pokedexID, setSprite, setName}: Props) {
     setName(data.data.name ? data.data.name : '');
 
     return (
-        <div className="flex border-4 m-5 w-3/6 absolute">
-            <div className="box-content w-60 p-4 m-10 border-4 rounded-md border-indigo-500">
-                <img src={ data.data.front_img } className="w-60" alt="icon"/>
-            </div>
-            <div className="box-content p-4 m-5 text-left">
-                <p className="text-lg font-bold">{ data.data.name }</p>
-                <div className="pt-6">
-                    <p>全国No. { data.data.pokedex_id }</p>
-                    <p>高さ { data.data.height }m</p>
-                    <p className="pb-6">重さ { data.data.weight }kg</p>
-                    <TypeCard types={ data.data.types }/>
+        <div className="">
+            <p className="text-left pl-10 pt-7 text-2xl font-bold">{ data.data.name }</p>
+            <div className="flex absolute">
+                <div className="box-content w-60 p-4 m-10 border-4 rounded-md border-indigo-500">
+                    <img src={ data.data.front_img } className="w-60" alt="icon"/>
+                </div>
+                <div className="box-content p-4 m-5 text-left">
+                    <div className="pt-6">
+                        <p>全国No. { data.data.pokedex_id }</p>
+                        <p>高さ { data.data.height }m</p>
+                        <p className="pb-6">重さ { data.data.weight }kg</p>
+                        <TypeCard types={ data.data.types }/>
+                    </div>
                 </div>
             </div>
         </div>

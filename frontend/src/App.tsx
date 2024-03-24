@@ -20,11 +20,11 @@ function App() {
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/home' element={
+                    <Route path='/' element={
                         <Home />
                     } />
                     <Route path='/new-training-pokemon' element={
-                        <NewTrainingPokemon pokedexID={294} />
+                        <NewTrainingPokemon pokedexID={1003} />
                     } />
                 </Routes>
             </BrowserRouter>
