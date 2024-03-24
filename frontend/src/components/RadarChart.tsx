@@ -61,6 +61,8 @@ export function RadarChart({pokedexID}: Props) {
     }
 
     return (
-        <Radar data={ chartData } options={ options } className="p-4 m-5" />
+        <div className="relative w-full">
+            <Radar data={ chartData } options={ options } className="relative  h-500 max-w-500 my-0 mx-auto" />
+        </div>
     );
 }
