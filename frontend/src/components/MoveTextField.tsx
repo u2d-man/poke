@@ -58,7 +58,7 @@ export function MoveTextField({
 
             <div className='relative overflow-x-auto w-full text-left border-solid' >
                 {data.data.map((suggestion) => (
-                    <p key={ suggestion } onClick={ () => handleMoveClick(suggestion) }>{suggestion}</p>
+                    <p className="text-white" key={ suggestion } onClick={ () => handleMoveClick(suggestion) }>{suggestion}</p>
                 ))}
             </div>
         </div>

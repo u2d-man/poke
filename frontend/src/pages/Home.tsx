@@ -4,9 +4,9 @@ import {NewTrainingPokemonButton} from "../components/NewTrainingPokemonButton";
 
 export function Home() {
     return (
-        <div>
+        <div className="bg-bg h-screen w-full min-h-screen">
             <Header children={<NewTrainingPokemonButton />} />
-            <TrainingPokemonGrid />
+                <TrainingPokemonGrid />
         </div>
     );
 }

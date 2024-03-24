@@ -59,7 +59,7 @@ export function ItemTextField({
                 {data.data.map((item) => (
                     <div className="flex">
                         <img src={ item.sprite } alt="icon" />
-                        <p key={ item.id } onClick={ () => handleItemClick(item.name) }>{item.name}</p>
+                        <p className="text-white" key={ item.id } onClick={ () => handleItemClick(item.name) }>{item.name}</p>
                     </div>
                 ))}
             </div>

@@ -6,6 +6,7 @@ import {MoveTextField} from "../components/MoveTextField";
 import apis, {PostTrainingPokemonRequest} from "../libs/Apis";
 import {ItemTextField} from "../components/ItemTextField";
 import {AbilityTextField} from "../components/AbilityTextField";
+import bgImage from "../images/blur-screen.png";
 
 type Props = {
     pokedexID: number;
@@ -53,33 +54,42 @@ export function NewTrainingPokemon({ pokedexID }: Props) {
     }
 
     return (
-        <div>
-            <PokemonBaseInfo pokedexID={ pokedexID } setSprite={ setSprite } setName={ setName } />
-            <div className="my-40 mx-30 flex justify-between">
-                <RadarChart pokedexID={ pokedexID } />
-            </div>
-            <div className="flex">
-                <div className="box-content max-w-md w-90 m-10">
-                    <EffortValueTextField placeholder="HP" value={ hp } setValue={ setHp } type="text" label="HitPoint" />
-                    <EffortValueTextField placeholder="こうげき" value={ attack } setValue={ setAttack } type="text" label="こうげき" />
-                    <EffortValueTextField placeholder="ぼうぎょ" value={ defense } setValue={ setDefense } type="text" label="ぼうぎょ" />
-                    <EffortValueTextField placeholder="すばやさ" value={ speed } setValue={ setSpeed } type="text" label="すばやさ" />
-                    <EffortValueTextField placeholder="とくぼう" value={ specialDefense } setValue={ setSpecialDefense } type="text" label="とくぼう" />
-                    <EffortValueTextField placeholder="とくこう" value={ specialAttack } setValue={ setSpecialAttack } type="text" label="とくこう" />
+        <div className="bg-bg h-screen w-full min-h-screen">
+            <div style={{
+                backgroundImage: `url(${bgImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
+                backgroundRepeat: 'no-repeat',
+                width: '100vw',
+                height: '100vh'
+            }}>
+                <PokemonBaseInfo pokedexID={ pokedexID } setSprite={ setSprite } setName={ setName } />
+                <div className="my-40 mx-30 flex justify-between">
+                    <RadarChart pokedexID={ pokedexID } />
                 </div>
-                <div className="box-content m-10">
-                    <MoveTextField placeholder="わざ1" value={ move } setValue={ setMove } type="search" label="わざ1" pokedexID={ pokedexID } />
-                    <MoveTextField placeholder="わざ2" value={ move2 } setValue={ setMove2 } type="text" label="わざ2" pokedexID={ pokedexID } />
-                    <MoveTextField placeholder="わざ3" value={ move3 } setValue={ setMove3 } type="text" label="わざ3" pokedexID={ pokedexID } />
-                    <MoveTextField placeholder="わざ4" value={ move4 } setValue={ setMove4 } type="text" label="わざ4" pokedexID={ pokedexID } />
+                <div className="flex">
+                    <div className="box-content max-w-md w-90 m-10">
+                        <EffortValueTextField placeholder="HP" value={ hp } setValue={ setHp } type="text" label="HitPoint" />
+                        <EffortValueTextField placeholder="こうげき" value={ attack } setValue={ setAttack } type="text" label="こうげき" />
+                        <EffortValueTextField placeholder="ぼうぎょ" value={ defense } setValue={ setDefense } type="text" label="ぼうぎょ" />
+                        <EffortValueTextField placeholder="すばやさ" value={ speed } setValue={ setSpeed } type="text" label="すばやさ" />
+                        <EffortValueTextField placeholder="とくぼう" value={ specialDefense } setValue={ setSpecialDefense } type="text" label="とくぼう" />
+                        <EffortValueTextField placeholder="とくこう" value={ specialAttack } setValue={ setSpecialAttack } type="text" label="とくこう" />
+                    </div>
+                    <div className="box-content m-10">
+                        <MoveTextField placeholder="わざ1" value={ move } setValue={ setMove } type="search" label="わざ1" pokedexID={ pokedexID } />
+                        <MoveTextField placeholder="わざ2" value={ move2 } setValue={ setMove2 } type="text" label="わざ2" pokedexID={ pokedexID } />
+                        <MoveTextField placeholder="わざ3" value={ move3 } setValue={ setMove3 } type="text" label="わざ3" pokedexID={ pokedexID } />
+                        <MoveTextField placeholder="わざ4" value={ move4 } setValue={ setMove4 } type="text" label="わざ4" pokedexID={ pokedexID } />
+                    </div>
+                    <div>
+                        <ItemTextField placeholder="もちもの" value={ item } setValue={ setItem } type="search" label="アイテム" />
+                    </div>
+                    <div>
+                        <AbilityTextField placeholder="とくせい" value={ ability } setValue={ setAbility } type="search" label="とくせい" pokedexID={ pokedexID } />
+                    </div>
+                    <button className="text-white" onClick={ submit } >登録</button>
                 </div>
-                <div>
-                    <ItemTextField placeholder="もちもの" value={ item } setValue={ setItem } type="search" label="アイテム" />
-                </div>
-                <div>
-                    <AbilityTextField placeholder="とくせい" value={ ability } setValue={ setAbility } type="search" label="とくせい" pokedexID={ pokedexID } />
-                </div>
-                <button onClick={ submit } >登録</button>
             </div>
         </div>
     );
