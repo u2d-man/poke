@@ -25,6 +25,9 @@ module.exports = {
         'dark': '#705848',
         'fairy': '#EE99AC',
         'bg': '#25254B',
+      },
+      fontFamily: {
+        kosugimaru: ['CustomFont', 'kosugimaru']
       }
     },
   },
