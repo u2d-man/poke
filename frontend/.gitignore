@@ -18,6 +18,8 @@
 .env.test.local
 .env.production.local
 
+./vscode/*
+
 /public/fonts/KosugiMaru-Regular.ttf
 
 npm-debug.log*

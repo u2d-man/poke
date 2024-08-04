@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+      "styled-components.vscode-styled-components",
+      "samverschueren.linter-xo",
+      "yusukehirao.vscode-markuplint",
+      "stylelint.vscode-stylelint"
+    ]
+}
