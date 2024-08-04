@@ -11,7 +11,10 @@ module.exports = {
         },
       },
     ],
+    // Props で宣言できるように
     'unicorn/prevent-abbreviations': 'off',
+    // import 文に拡張子つけない
+    'n/file-extension-in-import': 'off',
     // import文で拡張子チェックはいらない
     'import/extensions': 'off',
     // React 17以降はJSXの対応済みのための'React'のimportはいらない
