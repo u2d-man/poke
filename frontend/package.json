@@ -23,6 +23,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.45.3",
     "@testing-library/react": "^14.2.1",
     "prettier": "^3.3.3",
     "prettier-plugin-packagejson": "^2.5.1",
@@ -37,7 +38,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "vtest": "npx playwright test",
+    "test:ui": "npx playwright test --ui"
   },
   "eslintConfig": {
     "extends": [

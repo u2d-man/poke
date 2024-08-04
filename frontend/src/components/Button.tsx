@@ -20,7 +20,7 @@ export function Button({
   label,
   children,
   customClass,
-  buttonProps,
+  ...buttonProps
 }: Props & ButtonProps) {
   return (
     <button
