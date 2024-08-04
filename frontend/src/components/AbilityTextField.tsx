@@ -1,6 +1,10 @@
-import { DetailedHTMLProps, InputHTMLAttributes, useState } from 'react';
-import apis, { ApiResponse } from '../libs/Apis';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import {
+  type DetailedHTMLProps,
+  type InputHTMLAttributes,
+  useState,
+} from 'react';
+import {useQuery, type UseQueryResult} from '@tanstack/react-query';
+import apis, {type ApiResponse} from '../libs/Apis';
 
 type InputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
