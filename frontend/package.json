@@ -23,6 +23,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.45.3",
     "@testing-library/react": "^14.2.1",
     "prettier": "^3.3.3",
     "prettier-plugin-packagejson": "^2.5.1",
