@@ -18,7 +18,7 @@ type Props = {
 
 export function RadarChart({pokedexID}: Props) {
   const {data}: UseQueryResult<ApiResponse> = useQuery({
-    queryKey: ['getPokemonBaseStats'],
+    queryKey: ['getPokemonBaseStats', pokedexID],
     async queryFn() {
       const response = apis.getPokemonBaseStats(pokedexID);
       if (response) {
