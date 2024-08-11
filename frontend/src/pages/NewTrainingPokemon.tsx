@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {RadarChart} from '../components/RadarChart';
 import {PokemonBaseInfo} from '../components/PokemonBaseInfo';
 import {EffortValueTextField} from '../components/EffortValueTextField';
@@ -6,7 +6,6 @@ import {MoveTextField} from '../components/MoveTextField';
 import apis, {PostTrainingPokemonRequest} from '../libs/Apis';
 import {ItemTextField} from '../components/ItemTextField';
 import {AbilityTextField} from '../components/AbilityTextField';
-import bgImage from '../images/blur-screen.png';
 
 type Props = {
   pokedexID: number;
@@ -32,8 +31,8 @@ export function NewTrainingPokemon({pokedexID}: Props) {
 
   const [sprite, setSprite] = useState('');
 
-  const submit = async () => {
-    const req: PostTrainingPokemonRequest = {
+  const submit = async (): Promise<void> => {
+    const req = {
       pokedex_id: String(pokedexID),
       name: name,
       sprite: sprite,
@@ -49,22 +48,13 @@ export function NewTrainingPokemon({pokedexID}: Props) {
       special_attack: specialAttack,
       special_defense: specialDefense,
       item: item,
-    };
+    } as PostTrainingPokemonRequest;
     await apis.postTrainingPokemon(req);
   };
 
   return (
     <div className="bg-bg h-screen w-full min-h-screen">
-      <div
-        style={{
-          backgroundImage: `url(${bgImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center center',
-          backgroundRepeat: 'no-repeat',
-          width: '100vw',
-          height: '100vh',
-        }}
-      >
+      <div>
         <PokemonBaseInfo
           pokedexID={pokedexID}
           setSprite={setSprite}
