@@ -32,7 +32,7 @@ export function AbilityTextField({
   const [onFocus, setOnFocus] = useState(false);
 
   const {data}: UseQueryResult<ApiResponse> = useQuery({
-    queryKey: ['getPokemonAbility'],
+    queryKey: ['getPokemonAbility', pokedexID],
     async queryFn() {
       const response = await apis.getPokemonAbility(pokedexID);
       if (response) {
@@ -58,9 +58,9 @@ export function AbilityTextField({
   };
 
   return (
-    <div className='m-5'>
+    <div className="m-5">
       <input
-        className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mr-3'
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mr-3"
         type={type}
         {...inputProps}
         value={value}
@@ -69,10 +69,10 @@ export function AbilityTextField({
         onBlur={handleInputBlur}
       />
 
-      <div className='relative overflow-x-auto w-full text-left border-solid'>
+      <div className="relative overflow-x-auto w-full text-left border-solid">
         {data.data.map((ability) => (
           <p
-            className='text-white'
+            className="text-white"
             key={ability}
             onClick={() => {
               handleMoveClick(ability);

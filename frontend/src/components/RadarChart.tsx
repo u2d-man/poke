@@ -1,68 +1,78 @@
-import React from "react";
-import { Chart as ChartJS, RadarController, LineElement, PointElement, RadialLinearScale } from "chart.js";
-import {Radar} from "react-chartjs-2";
-import apis, {ApiResponse} from "../libs/Apis";
-import {useQuery, UseQueryResult} from "@tanstack/react-query";
+import {
+  Chart as ChartJS,
+  RadarController,
+  LineElement,
+  PointElement,
+  RadialLinearScale,
+} from 'chart.js';
+import {Radar} from 'react-chartjs-2';
+import {useQuery, type UseQueryResult} from '@tanstack/react-query';
+import {css} from '@emotion/react';
+import apis, {type ApiResponse} from '../libs/Apis';
 
 ChartJS.register(RadarController, LineElement, PointElement, RadialLinearScale);
 
 type Props = {
-    pokedexID: number
-}
+  readonly pokedexID: number;
+};
 
 export function RadarChart({pokedexID}: Props) {
-    const {data}: UseQueryResult<ApiResponse> = useQuery({
-        queryKey: ["getPokemonBaseStats"],
-        async queryFn() {
-            const response = apis.getPokemonBaseStats(pokedexID);
-            if (response) {
-                return response;
-            } else {
-                console.log('fetch error get pokemon base stats.');
-            }
-        }
-    });
+  const {data}: UseQueryResult<ApiResponse> = useQuery({
+    queryKey: ['getPokemonBaseStats', pokedexID],
+    async queryFn() {
+      const response = apis.getPokemonBaseStats(pokedexID);
+      if (response) {
+        return response;
+      }
 
-    if (!data) return null;
+      console.log('fetch error get pokemon base stats.');
+    },
+  });
 
-    const chartData = {
-        labels: [
-            'HP',
-            'こうげき',
-            'ぼうぎょ',
-            'すばやさ',
-            'とくぼう',
-            'とくこう',
-        ],
-        datasets: [
-            {
-                label: "base stats",
-                data: data.data,
-                backgroundColor: "#fff",
-                borderColor: "#fff",
-                pointBackgroundColor: "#fff",
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: "#fff"
-            },
-        ],
-    }
+  if (!data) return null;
 
-    const options = {
-        scales: {
-            r: {
-                angleLines: {
-                    display: true
-                },
-                suggestedMin: 0,
-                suggestedMax: 350
-            }
-        }
-    }
+  const chartData = {
+    labels: ['HP', 'こうげき', 'ぼうぎょ', 'すばやさ', 'とくぼう', 'とくこう'],
+    datasets: [
+      {
+        label: 'base stats',
+        data: data.data,
+        backgroundColor: '#fff',
+        borderColor: '#fff',
+        pointBackgroundColor: '#fff',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: '#fff',
+      },
+    ],
+  };
 
-    return (
-        <div className="relative w-full">
-            <Radar data={ chartData } options={ options } className="relative h-500 max-w-500 my-0 mx-auto" />
-        </div>
-    );
+  const options = {
+    scales: {
+      r: {
+        angleLines: {
+          display: true,
+        },
+        suggestedMin: 0,
+        suggestedMax: 350,
+      },
+    },
+  };
+
+  return (
+    <div css={styles.container}>
+      <Radar
+        data={chartData}
+        options={options}
+        className="relative h-500 max-w-500 my-0 mx-auto"
+      />
+    </div>
+  );
 }
+
+const styles = {
+  container: css`
+    position: relative;
+    width: 100%;
+  `,
+};
